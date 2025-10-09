@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles, resets, and variables */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global styles, resets, and variables */
+
+:root {
+  --c-dark-brown: #4a2c2a;
+  --c-medium-brown: #8d5b4c;
+  --c-cream: #f5f5dc;
+  --c-light-cream: #fdf5e6;
+
+  --color-background: var(--c-cream);
+  --color-background-soft: var(--c-light-cream);
+  --color-background-mute: var(--c-cream);
+
+  --color-border: var(--c-medium-brown);
+  --color-border-hover: var(--c-dark-brown);
+
+  --color-heading: var(--c-dark-brown);
+  --color-text: var(--c-dark-brown);
+
+  --section-gap: 160px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  transition:
+    color 0.5s,
+    background-color 0.5s;
+  line-height: 1.6;
+  font-family: Vazirmatn, sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  font-weight: normal;
+}
+
+p {
+  overflow-wrap: break-word;
+  word-wrap: break-word; /* Fallback for older browsers */
+}
+
+.gradient-text {
+    background: linear-gradient(45deg, var(--c-dark-brown), var(--c-medium-brown));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+
