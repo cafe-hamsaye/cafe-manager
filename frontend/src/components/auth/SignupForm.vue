@@ -91,9 +91,9 @@ const handleSubmit = async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        firstName: firstName.value,
-        lastName: lastName.value,
-        phoneNumber: phoneNumber.value,
+        first_name: firstName.value,
+        last_name: lastName.value,
+        phone_number: phoneNumber.value,
         password: password.value,
       }),
     });
