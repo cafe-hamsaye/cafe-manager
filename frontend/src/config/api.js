@@ -2,7 +2,8 @@ const API_BASE_URL = 'http://localhost:8000/api';
 
 export const AUTH_API = {
   REGISTER: `${API_BASE_URL}/auth/register/`,
-  LOGIN: `${API_BASE_URL}/auth/login`,
+  LOGIN: `${API_BASE_URL}/auth/login/`,
+  ADMIN_LOGIN: `${API_BASE_URL}/auth/admin/login/`,
   GET_USER: `${API_BASE_URL}/auth/user`,
 };
 

@@ -2,14 +2,14 @@
   <div class="w-full max-w-md p-4">
     <div class="bg-surface border border-border-subtle rounded-2xl shadow-xl p-8">
       <div class="text-center mb-10">
-        <h1 class="text-2xl font-bold text-heading mb-2">خوش آمدید</h1>
-        <p class="text-sm text-body">لطفا اطلاعات حساب خود را وارد نمایید</p>
+        <h1 class="text-2xl font-bold text-heading mb-2">ورود مدیر سیستم</h1>
+        <p class="text-sm text-body">لطفا اطلاعات خود را وارد نمایید</p>
       </div>
       
       <form @submit.prevent="handleSubmit" class="space-y-6">
         <div>
-          <label for="phoneNumber-login" class="block text-sm font-medium text-heading mb-2">شماره تلفن</label>
-          <input v-model="phoneNumber" type="tel" id="phoneNumber-login" class="w-full p-3 bg-input-bg border border-border-subtle rounded-lg focus:border-action focus:ring-2 focus:ring-action/20 outline-none transition-all duration-300" placeholder="09123456789" required>
+          <label for="username-login" class="block text-sm font-medium text-heading mb-2">نام کاربری</label>
+          <input v-model="username" type="text" id="username-login" class="w-full p-3 bg-input-bg border border-border-subtle rounded-lg focus:border-action focus:ring-2 focus:ring-action/20 outline-none transition-all duration-300" placeholder="admin" required>
         </div>
         
         <div>
@@ -25,7 +25,7 @@
         
         <div class="pt-4">
           <button type="submit" class="w-full p-3 bg-action text-white rounded-lg hover:bg-action-hover transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-action/50">
-              ورود به سیستم
+              ورود
           </button>
         </div>
 
@@ -40,12 +40,11 @@ import { useRouter } from 'vue-router';
 import { AUTH_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
 
-const phoneNumber = ref('');
+const username = ref('');
 const password = ref('');
 const passwordFieldType = ref('password');
-
-const toast = useToast();
 const router = useRouter();
+const toast = useToast();
 
 const togglePasswordVisibility = () => {
   passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
@@ -53,13 +52,13 @@ const togglePasswordVisibility = () => {
 
 const handleSubmit = async () => {
   try {
-    const response = await fetch(AUTH_API.LOGIN, {
+    const response = await fetch(AUTH_API.ADMIN_LOGIN, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        phone_number: phoneNumber.value,
+        username: username.value,
         password: password.value,
       }),
     });
@@ -71,11 +70,12 @@ const handleSubmit = async () => {
       throw new Error(errorMessage);
     }
 
+    // TODO: Save the admin token
     toast.success(data.message);
-    router.push('/dashboard');
+    router.push('/admin-panel');
 
   } catch (error) {
-    console.error('Login error:', error);
+    console.error('Admin login error:', error);
     toast.error(error.message);
   }
 };

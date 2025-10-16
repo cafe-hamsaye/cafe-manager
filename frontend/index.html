@@ -6,10 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>کافه همسایه</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              // Final "Warm & Chic" Palette
+              'bg-main': '#F4EFE9',      // A warmer, slightly browner background
+              'surface': '#FFFFFF',      // Clean white for card backgrounds
+              'heading': '#3D3A36',      // Dark, strong brown for headings
+              'body': '#5C5855',         // Softer grey-brown for body text
+              'border-subtle': '#E8E2DC', // A slightly darker border for the new bg
+              'action': '#8A5E4A',       // A warm, chic coffee/caramel for buttons
+              'action-hover': '#754F3E', // A darker version for hover
+              'input-bg': '#FBF9F6',     // A very light cream for inputs, contrasts with bg-main
+            }
+          }
+        }
+      }
+    </script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   </head>
-  <body>
+  <body class="bg-bg-main">
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
   </body>
