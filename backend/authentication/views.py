@@ -1,12 +1,26 @@
 
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from django.contrib.auth.hashers import check_password
 from .serializers import UserSerializer, MyTokenObtainPairSerializer, AdminLoginSerializer
 from .models import User, Admin
+from .permissions import IsAdmin
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    A viewset for viewing and deleting user instances.
+    Accessible only by admin users.
+    """
+    queryset = User.objects.all().order_by('-id')
+    serializer_class = UserSerializer
+    permission_classes = [IsAdmin] # Use the new permission class
+    http_method_names = ['get', 'delete', 'head', 'options'] # Allow only list, retrieve, destroy
+
 
 class AdminLoginView(APIView):
     def post(self, request, *args, **kwargs):
