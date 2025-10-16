@@ -7,6 +7,8 @@ frontend/
 ├── node_modules/           # Directory where npm installs project dependencies
 ├── src/                    # Main source code for the Vue application
 │   ├── components/         # Reusable Vue components
+│   │   ├── admin/          # Components for the admin panel
+│   │   │   └── UsersTable.vue
 │   │   ├── auth/           # Components related to authentication
 │   │   └── layout/         # Layout components (Header, Footer, Background, DashboardHeader, AdminHeader, UserProfileMenu, BackButton)
 │   ├── config/             # Configuration files (e.g., API endpoint settings)
@@ -18,7 +20,8 @@ frontend/
 │   │   ├── LandingPage.vue
 │   │   ├── DashboardPage.vue
 │   │   ├── AdminLoginPage.vue
-│   │   └── AdminDashboardPage.vue
+│   │   ├── AdminDashboardPage.vue
+│   │   └── ManageUsersPage.vue
 │   ├── router/             # Vue Router configuration
 │   │   └── index.js
 │   ├── App.vue             # The root Vue component
@@ -38,8 +41,9 @@ frontend/
     -   **`components/layout/`**: This folder now contains specialized headers (`DashboardHeader`, `AdminHeader` with corrected item alignment), a reusable `UserProfileMenu`, and a `BackButton` used on auth pages.
     -   **`config/`**: Contains configuration files. `api.js` is used to configure the base URL for the backend API, making it easy to change.
     -   **`css/`**: For global CSS styles. `main.css` contains styles that apply to the entire application.
-    -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage` and `AdminDashboardPage` for administrators.
+    -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage`, `AdminDashboardPage`, and `ManageUsersPage` for administrators.
     -   **`router/`**: This directory contains the Vue Router configuration. `index.js` defines all the application routes and maps them to the corresponding page components.
+    -   **`components/admin/`**: This folder contains components that are specific to the admin panel, such as the `UsersTable.vue` for managing users.
     -   **`App.vue`**: The root component of the application. It has been updated with logic to conditionally render the correct header (generic, dashboard, or admin) based on the current route, and to hide the header/footer on the authentication page.
     -   **`main.js`**: The entry point for the application. It initializes Vue, sets up the router, and mounts the root `App.vue` component to the `index.html` file.
 

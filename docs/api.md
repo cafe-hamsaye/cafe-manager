@@ -125,28 +125,168 @@ This file contains the documentation for all available backend endpoints.
 
 ### `GET /api/auth/user/`
 
+
+
 **Description:** Returns the information of the logged-in user based on the provided token.
 
+
+
 **Headers:**
+
 ```json
+
 {
+
   "Authorization": "Bearer your_access_token"
+
 }
+
 ```
+
+
 
 **Success Response:**
+
 - **Code:** `200 OK`
+
 - **Content:** (Complete user information without the password)
+
 ```json
+
 {
+
   "id": 1,
+
   "first_name": "string",
+
   "last_name": "string",
+
   "phone_number": "09123456789"
+
 }
+
 ```
 
+
+
 **Error Responses:**
+
 - **Code:** `401 Unauthorized`
+
   - **Content:** `{ "detail": "Authentication credentials were not provided." }`
+
   - **Content:** `{ "detail": "Given token not valid for any token type" }`
+
+
+
+---
+
+
+
+## User Management (Admin Only)
+
+
+
+### `GET /api/auth/users/`
+
+
+
+**Description:** Retrieves a list of all registered users. Requires admin authentication.
+
+
+
+**Headers:**
+
+```json
+
+{
+
+  "Authorization": "Bearer your_admin_access_token"
+
+}
+
+```
+
+
+
+**Success Response:**
+
+- **Code:** `200 OK`
+
+- **Content:**
+
+```json
+
+[
+
+  {
+
+    "id": 1,
+
+    "first_name": "string",
+
+    "last_name": "string",
+
+    "phone_number": "09123456789"
+
+  },
+
+  ...
+
+]
+
+```
+
+
+
+**Error Responses:**
+
+- **Code:** `401 Unauthorized`
+
+  - **Content:** `{ "detail": "Authentication credentials were not provided." }`
+
+- **Code:** `403 Forbidden`
+
+  - **Content:** `{ "detail": "You do not have permission to perform this action." }`
+
+
+
+---
+
+
+
+### `DELETE /api/auth/users/{id}/`
+
+
+
+**Description:** Deletes a specific user by their ID. Requires admin authentication.
+
+
+
+**Headers:**
+
+```json
+
+{
+
+  "Authorization": "Bearer your_admin_access_token"
+
+}
+
+```
+
+
+
+**Success Response:**
+
+- **Code:** `204 No Content`
+
+
+
+**Error Responses:**
+
+- **Code:** `401 Unauthorized`
+
+- **Code:** `403 Forbidden`
+
+- **Code:** `404 Not Found`

@@ -15,6 +15,7 @@ backend/
 │   ├── admin.py            # Django admin configuration for the app
 │   ├── apps.py             # App configuration
 │   ├── models.py           # Database models (custom User model)
+│   ├── permissions.py      # Custom permission classes for DRF
 │   ├── serializers.py      # DRF serializers for the User model
 │   ├── tests.py            # App-specific tests
 │   ├── urls.py             # URL patterns for the authentication API
@@ -44,6 +45,7 @@ backend/
     -   **`serializers.py`**: Contains DRF serializers to convert model instances to/from JSON. The `UserSerializer` now also handles backend validation for password confirmation.
     -   **`views.py`**: Holds the API views. The `AdminLoginView` has been refactored to use a standard method for JWT generation. The views also now return standardized Persian success messages.
     -   **`urls.py`**: Defines the specific URL patterns for the authentication app, including the new `/api/auth/admin/login/` endpoint.
+    -   **`permissions.py`**: Contains custom permission classes, such as `IsAdmin`, to protect endpoints and ensure that only authorized users (like administrators) can access them.
 
 -   **`cafe_manager_backend/`**: This directory is the main container for the Django project's configuration.
     -   **`settings.py`**: The most important file here. It contains all the project's configuration, such as database settings, installed apps, middleware, and authentication settings.
