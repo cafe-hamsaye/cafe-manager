@@ -32,7 +32,15 @@ The backend is built with Django and Django REST Framework, providing a RESTful 
         ```
     After activation, you will see `(venv)` at the beginning of your command prompt.
 
-4.  **Install dependencies:**
+4.  **Configure Environment:**
+    Create a `.env` file by copying the example file.
+    ```sh
+    # In the `backend` directory
+    cp .env.example .env
+    ```
+    Then, fill in the necessary values in the `.env` file, such as `ADMIN_USERNAME` and `ADMIN_PASSWORD`.
+
+5.  **Install dependencies:**
     Install all the required Python packages using pip.
     ```sh
     pip install -r requirements.txt
@@ -58,12 +66,11 @@ The backend is built with Django and Django REST Framework, providing a RESTful 
     python manage.py migrate
     ```
 
-2.  **Create a superuser (optional):**
-    This allows you to access the Django admin interface.
+2.  **Create the initial admin user:**
+    This command reads the credentials from your `.env` file and creates the first admin user.
     ```sh
-    python manage.py createsuperuser
+    python manage.py create_admin
     ```
-    You will be prompted to enter a phone number, password, and other details.
 
 3.  **Run the development server:**
     ```sh

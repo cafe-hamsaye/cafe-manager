@@ -4,7 +4,12 @@ This document outlines the structure of the Django backend project.
 
 ```
 backend/
+├── .env                    # Environment variables (local)
+├── .env.example            # Example environment variables
 ├── authentication/         # Django app for handling user authentication
+│   ├── management/         # Custom Django commands
+│   │   └── commands/
+│   │       └── create_admin.py
 │   ├── migrations/         # Database migrations for the authentication app
 │   ├── __init__.py
 │   ├── admin.py            # Django admin configuration for the app
@@ -31,11 +36,14 @@ backend/
 
 ## File and Folder Descriptions
 
--   **`authentication/`**: This is a Django app dedicated to user authentication. It contains all the logic for user registration, login, and management.
-    -   **`models.py`**: Defines the custom `User` model, which uses a phone number as the username.
-    -   **`serializers.py`**: Contains Django REST Framework serializers to convert the `User` model instances to and from JSON.
-    -   **`views.py`**: Holds the API views that define the logic for the `/api/auth/` endpoints.
-    -   **`urls.py`**: Defines the specific URL patterns for the authentication app (e.g., `/register/`, `/login/`).
+-   **`.env` / `.env.example`**: These files are used to manage environment variables. `.env` is for local development (and is ignored by Git), while `.env.example` serves as a template.
+
+-   **`authentication/`**: This is a Django app dedicated to user authentication. It contains all the logic for user registration, login, and management for both regular users and admins.
+    -   **`management/commands/create_admin.py`**: A custom management command to create the initial admin user from credentials stored in the `.env` file.
+    -   **`models.py`**: Defines the database models. It includes the custom `User` model (using phone number as a username) and the new `Admin` model for system administrators.
+    -   **`serializers.py`**: Contains DRF serializers to convert model instances to/from JSON. The `UserSerializer` now also handles backend validation for password confirmation.
+    -   **`views.py`**: Holds the API views. The `AdminLoginView` has been refactored to use a standard method for JWT generation. The views also now return standardized Persian success messages.
+    -   **`urls.py`**: Defines the specific URL patterns for the authentication app, including the new `/api/auth/admin/login/` endpoint.
 
 -   **`cafe_manager_backend/`**: This directory is the main container for the Django project's configuration.
     -   **`settings.py`**: The most important file here. It contains all the project's configuration, such as database settings, installed apps, middleware, and authentication settings.

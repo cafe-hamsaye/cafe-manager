@@ -16,7 +16,8 @@ This file contains the documentation for all available backend endpoints.
   "first_name": "string",
   "last_name": "string",
   "phone_number": "09123456789",
-  "password": "yourpassword"
+  "password": "yourpassword",
+  "password2": "yourpassword"
 }
 ```
 
@@ -65,6 +66,34 @@ This file contains the documentation for all available backend endpoints.
 **Error Responses:**
 - **Code:** `401 Unauthorized`
   - **Content:** `{ "detail": "شماره تلفن یا رمز عبور اشتباه است" }`
+
+---
+
+### `POST /api/auth/admin/login/`
+
+**Description:** This endpoint is used for admin login.
+
+**Request Body:**
+```json
+{
+  "username": "your_admin_username",
+  "password": "your_admin_password"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "refresh": "your_refresh_token",
+  "access": "your_access_token"
+}
+```
+
+**Error Responses:**
+- **Code:** `401 Unauthorized`
+  - **Content:** `{ "detail": "نام کاربری یا رمز عبور اشتباه است" }`
 
 ---
 
