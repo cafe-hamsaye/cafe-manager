@@ -27,7 +27,7 @@ import Footer from './components/layout/Footer.vue';
 const route = useRoute();
 
 // Computed properties to determine which layout to show
-const isAuthPage = computed(() => route.path === '/auth');
+const isAuthPage = computed(() => route.path === '/auth' || route.path === '/admin');
 const isUserDashboard = computed(() => route.path.startsWith('/dashboard'));
 const isAdminPanel = computed(() => route.path.startsWith('/admin-panel'));
 

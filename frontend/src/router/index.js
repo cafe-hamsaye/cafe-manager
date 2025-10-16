@@ -4,6 +4,7 @@ import AuthPage from '../pages/AuthPage.vue';
 import DashboardPage from '../pages/DashboardPage.vue';
 import AdminLoginPage from '../pages/AdminLoginPage.vue';
 import AdminDashboardPage from '../pages/AdminDashboardPage.vue';
+import ManageUsersPage from '../pages/ManageUsersPage.vue';
 
 const routes = [
   {
@@ -31,6 +32,12 @@ const routes = [
     path: '/admin-panel',
     name: 'AdminDashboard',
     component: AdminDashboardPage,
+    // meta: { requiresAdmin: true } // Example for protected route
+  },
+  {
+    path: '/admin-panel/users',
+    name: 'ManageUsers',
+    component: ManageUsersPage,
     // meta: { requiresAdmin: true } // Example for protected route
   },
 ];

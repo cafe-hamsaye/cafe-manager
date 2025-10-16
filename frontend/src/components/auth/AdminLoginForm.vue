@@ -70,7 +70,9 @@ const handleSubmit = async () => {
       throw new Error(errorMessage);
     }
 
-    // TODO: Save the admin token
+    // Save the token to localStorage
+    localStorage.setItem('admin_token', JSON.stringify({ access: data.access, refresh: data.refresh }));
+
     toast.success(data.message);
     router.push('/admin-panel');
 

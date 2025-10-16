@@ -7,6 +7,11 @@ export const AUTH_API = {
   GET_USER: `${API_BASE_URL}/auth/user`,
 };
 
+export const USERS_API = {
+  LIST: `${API_BASE_URL}/auth/users/`,
+  DELETE: (userId) => `${API_BASE_URL}/auth/users/${userId}/`,
+};
+
 export const EXAM_API = {
   GET_ALL: `${API_BASE_URL}/exams`,
   GET_PURCHASED: `${API_BASE_URL}/exams/purchased`,

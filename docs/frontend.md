@@ -35,7 +35,7 @@ frontend/
 -   **`node_modules/`**: This directory contains all the JavaScript packages and dependencies that the project relies on. It is managed by npm and is excluded from version control.
 
 -   **`src/`**: This is the heart of the Vue application, containing all the source code.
-    -   **`components/layout/`**: This folder now contains specialized headers (`DashboardHeader`, `AdminHeader`), a reusable `UserProfileMenu` with a logout function, and a `BackButton` for specific pages.
+    -   **`components/layout/`**: This folder now contains specialized headers (`DashboardHeader`, `AdminHeader` with corrected item alignment), a reusable `UserProfileMenu`, and a `BackButton` used on auth pages.
     -   **`config/`**: Contains configuration files. `api.js` is used to configure the base URL for the backend API, making it easy to change.
     -   **`css/`**: For global CSS styles. `main.css` contains styles that apply to the entire application.
     -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage` and `AdminDashboardPage` for administrators.
