@@ -2,3 +2,4 @@ Django
 djangorestframework
 djangorestframework-simplejwt
 mysql-connector-python
+python-dotenv

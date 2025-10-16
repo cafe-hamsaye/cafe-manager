@@ -4,9 +4,11 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User
 
 class UserSerializer(serializers.ModelSerializer):
+    password2 = serializers.CharField(style={'input_type': 'password'}, write_only=True)
+
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'phone_number', 'password')
+        fields = ('id', 'first_name', 'last_name', 'phone_number', 'password', 'password2')
         extra_kwargs = {
             'password': {'write_only': True},
             'first_name': {'required': True, 'error_messages': {'required': 'لطفا نام خود را وارد کنید', 'blank': 'لطفا نام خود را وارد کنید'}},
@@ -14,7 +16,13 @@ class UserSerializer(serializers.ModelSerializer):
             'phone_number': {'required': True, 'error_messages': {'required': 'لطفا شماره تلفن خود را وارد کنید', 'blank': 'لطفا شماره تلفن خود را وارد کنید'}},
         }
 
+    def validate(self, data):
+        if data['password'] != data['password2']:
+            raise serializers.ValidationError({"password": "رمزهای عبور یکسان نیستند!"})
+        return data
+
     def create(self, validated_data):
+        validated_data.pop('password2', None)  # Remove password2 before creating user
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -37,3 +45,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['last_name'] = user.last_name
 
         return token
+
+
+class AdminLoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
