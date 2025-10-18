@@ -2,12 +2,21 @@
   <header class="bg-surface/80 backdrop-blur-lg sticky top-0 z-50 border-b border-border-subtle">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center h-20">
-        <router-link to="/dashboard" class="text-xl font-bold text-heading">
-          داشبورد کاربر
-        </router-link>
-        <nav>
+        <!-- Right Section: Title & Menu -->
+        <div class="flex items-center space-x-8 space-x-reverse">
+          <router-link to="/dashboard" class="text-xl font-bold text-heading">
+            داشبورد کاربر
+          </router-link>
+          <div class="border-l border-border-subtle h-6"></div>
+          <router-link to="/menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
+            منو
+          </router-link>
+        </div>
+
+        <!-- Left Section: Profile -->
+        <div>
           <UserProfileMenu />
-        </nav>
+        </div>
       </div>
     </div>
   </header>

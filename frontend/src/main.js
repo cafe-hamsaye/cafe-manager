@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import Toast from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import { vfmPlugin } from 'vue-final-modal';
 
 // Import only the main custom stylesheet
 import './css/main.css';
@@ -29,4 +30,5 @@ const options = {
 
 app.use(Toast, options);
 app.use(router);
+app.use(vfmPlugin);
 app.mount('#app');

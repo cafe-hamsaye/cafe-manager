@@ -17,6 +17,11 @@ class UserViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdmin] # Use the new permission class
     http_method_names = ['get', 'delete', 'head', 'options'] # Allow only list, retrieve, destroy
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response({'message': 'کاربر با موفقیت حذف شد.'}, status=status.HTTP_200_OK)
+
 
 class AdminTokenObtainPairView(TokenObtainPairView):
     serializer_class = AdminTokenObtainPairSerializer

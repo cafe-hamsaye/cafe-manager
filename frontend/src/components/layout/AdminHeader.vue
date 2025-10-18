@@ -11,6 +11,9 @@
           <router-link to="/admin-panel/users" class="text-sm font-medium text-body hover:text-heading transition-colors">
             مدیریت کاربران
           </router-link>
+          <router-link to="/admin-panel/menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
+            مدیریت منو
+          </router-link>
           <!-- Add other admin menu items here -->
         </div>
 

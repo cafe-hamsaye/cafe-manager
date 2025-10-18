@@ -39,43 +39,23 @@
 import { ref, onMounted } from 'vue';
 import { USERS_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
+import authFetch from '@/utils/authFetch';
 
 const users = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
 const toast = useToast();
 
-// Helper to get the token from localStorage
-const getAuthToken = () => {
-  // Assuming the admin token is stored here after login
-  const tokenData = JSON.parse(localStorage.getItem('admin_token'));
-  return tokenData ? tokenData.access : null;
-};
-
 const fetchUsers = async () => {
   isLoading.value = true;
   error.value = null;
   try {
-    const token = getAuthToken();
-    if (!token) {
-      throw new Error('Authentication token not found.');
-    }
-
-    const response = await fetch(USERS_API.LIST, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    console.log('fetchUsers response:', response);
-
+    const response = await authFetch(USERS_API.LIST);
     if (!response.ok) {
       const errorData = await response.json();
-      console.log('fetchUsers errorData:', errorData);
-      throw new Error(errorData.detail || 'Failed to fetch users.');
+      throw new Error(errorData.detail || 'دریافت لیست کاربران با خطا مواجه شد.');
     }
-
     users.value = await response.json();
-
   } catch (err) {
     console.error('fetchUsers error:', err);
     error.value = err.message;
@@ -93,29 +73,15 @@ const confirmDeleteUser = (user) => {
 
 const deleteUser = async (userId) => {
   try {
-    const token = getAuthToken();
-    if (!token) {
-      throw new Error('Authentication token not found.');
-    }
-
-    const response = await fetch(USERS_API.DELETE(userId), {
+    const response = await authFetch(USERS_API.DELETE(userId), {
       method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
     });
-    console.log('deleteUser response:', response);
-
-    if (!response.ok && response.status !== 204) { // 204 No Content is a success status
-      const errorData = await response.json();
-      console.log('deleteUser errorData:', errorData);
-      throw new Error(errorData.detail || 'Failed to delete user.');
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.detail || 'حذف کاربر با خطا مواجه شد.');
     }
-
-    toast.success('کاربر با موفقیت حذف شد.');
-    // Refresh the user list
+    toast.success(data.message);
     fetchUsers();
-
   } catch (err) {
     console.error('deleteUser error:', err);
     toast.error(err.message);

@@ -5,6 +5,8 @@ import DashboardPage from '../pages/DashboardPage.vue';
 import AdminLoginPage from '../pages/AdminLoginPage.vue';
 import AdminDashboardPage from '../pages/AdminDashboardPage.vue';
 import ManageUsersPage from '../pages/ManageUsersPage.vue';
+import ManageMenuPage from '../pages/ManageMenuPage.vue';
+import MenuPage from '../pages/MenuPage.vue';
 
 const routes = [
   {
@@ -39,6 +41,17 @@ const routes = [
     name: 'ManageUsers',
     component: ManageUsersPage,
     // meta: { requiresAdmin: true } // Example for protected route
+  },
+  {
+    path: '/admin-panel/menu',
+    name: 'ManageMenu',
+    component: ManageMenuPage,
+    // meta: { requiresAdmin: true } // Example for protected route
+  },
+  {
+    path: '/menu',
+    name: 'Menu',
+    component: MenuPage,
   },
 ];
 
