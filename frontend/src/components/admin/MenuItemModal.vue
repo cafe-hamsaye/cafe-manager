@@ -15,8 +15,9 @@
         <input v-model="form.price" type="number" id="price" class="w-full p-3 bg-input-bg border border-border-subtle rounded-lg focus:border-action focus:ring-2 focus:ring-action/20 outline-none transition-all duration-300" required>
       </div>
       <div>
-        <label for="image_url" class="block text-sm font-medium text-heading mb-2">آدرس تصویر</label>
-        <input v-model="form.image_url" type="text" id="image_url" class="w-full p-3 bg-input-bg border border-border-subtle rounded-lg focus:border-action focus:ring-2 focus:ring-action/20 outline-none transition-all duration-300" required>
+        <label for="image" class="block text-sm font-medium text-heading mb-2">تصویر</label>
+        <input @change="handleImageUpload" type="file" id="image" class="w-full p-2 bg-input-bg border border-border-subtle rounded-lg file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-action file:text-white hover:file:bg-action-hover"/>
+        <img v-if="imagePreview" :src="imagePreview" class="mt-4 w-32 h-32 object-cover rounded-lg"/>
       </div>
       <div class="pt-4 flex justify-end">
         <button type="submit" class="w-full p-3 bg-action text-white rounded-lg hover:bg-action-hover transition-all duration-300 font-medium shadow-md hover:shadow-lg hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-action/50">
@@ -40,13 +41,43 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit']);
 
 const form = ref({});
+const imagePreview = ref(null);
+const imageFile = ref(null);
 
 watch(() => props.item, (newItem) => {
   form.value = { ...(newItem || {}) };
+  if (newItem && newItem.image) {
+    imagePreview.value = newItem.image;
+  } else {
+    imagePreview.value = null;
+  }
+  imageFile.value = null;
 }, { immediate: true, deep: true });
 
+const handleImageUpload = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    imageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      imagePreview.value = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 const handleSubmit = () => {
-  emit('submit', form.value);
+  const formData = new FormData();
+  Object.keys(form.value).forEach(key => {
+    if (key !== 'image') { // Don't append the old image URL
+      formData.append(key, form.value[key]);
+    }
+  });
+  if (imageFile.value) {
+    formData.append('image', imageFile.value);
+  }
+  
+  emit('submit', formData);
   emit('update:modelValue', false);
 };
 </script>

@@ -1,10 +1,10 @@
 <template>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div v-for="item in menuItems" :key="item.id" class="bg-surface rounded-2xl border border-border-subtle shadow-xl overflow-hidden">
-      <img :src="item.image_url" :alt="item.name" class="w-full h-48 object-cover">
+      <img :src="item.image" :alt="item.name" class="w-full h-48 object-cover">
       <div class="p-6">
         <h3 class="text-lg font-semibold text-heading mb-2">{{ item.name }}</h3>
-        <p class="text-body text-sm mb-4">{{ item.description }}</p>
+        <p class="text-body text-sm mb-4 whitespace-pre-wrap">{{ item.description }}</p>
         <div class="flex justify-between items-center">
           <span class="text-action font-bold">{{ item.price }}</span>
         </div>

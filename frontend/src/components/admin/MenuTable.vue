@@ -11,6 +11,7 @@
       <table class="min-w-full text-sm text-right">
         <thead class="bg-input-bg">
           <tr>
+            <th class="px-6 py-3 font-medium text-heading">تصویر</th>
             <th class="px-6 py-3 font-medium text-heading">نام</th>
             <th class="px-6 py-3 font-medium text-heading">توضیحات</th>
             <th class="px-6 py-3 font-medium text-heading">قیمت</th>
@@ -22,8 +23,9 @@
             <td colspan="4" class="px-6 py-10 text-center text-body">هیچ آیتمی در منو یافت نشد.</td>
           </tr>
           <tr v-for="item in menuItems" :key="item.id">
+            <td class="px-6 py-4"><img :src="item.image" class="w-16 h-16 object-cover rounded-md"/></td>
             <td class="px-6 py-4 text-body">{{ item.name }}</td>
-            <td class="px-6 py-4 text-body">{{ item.description }}</td>
+            <td class="px-6 py-4 text-body whitespace-pre-wrap">{{ item.description }}</td>
             <td class="px-6 py-4 text-body">{{ item.price }}</td>
             <td class="px-6 py-4">
               <button @click="openEditItemModal(item)" class="text-blue-500 hover:text-blue-700 transition-colors font-medium ml-4">ویرایش</button>
@@ -97,27 +99,18 @@ const openConfirmDeleteModal = (item) => {
   showConfirmDeleteModal.value = true;
 };
 
-const handleMenuItemSubmit = async (item) => {
-  const url = isEdit.value ? MENU_API.UPDATE(item.id) : MENU_API.CREATE;
+const handleMenuItemSubmit = async (formData) => {
+  const itemId = formData.get('id'); // FormData doesn't have item.id directly
+  const url = isEdit.value ? MENU_API.UPDATE(itemId) : MENU_API.CREATE;
   const method = isEdit.value ? 'PUT' : 'POST';
-  
-  // Ensure only clean data is sent to the backend
-  const payload = {
-    name: item.name,
-    description: item.description,
-    price: item.price,
-    image_url: item.image_url,
-  };
 
   try {
     const response = await authFetch(url, {
       method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: formData, // No Content-Type header needed, browser sets it for FormData
     });
     const data = await response.json();
     if (!response.ok) {
-      // Try to parse and show specific validation errors
       const errorMessages = Object.values(data).flat().join('\n');
       throw new Error(errorMessages || 'ذخیره آیتم منو با خطا مواجه شد.');
     }
