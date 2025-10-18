@@ -29,9 +29,9 @@
 
 <script setup>
 import { ref } from 'vue';
-import LoginForm from '../components/auth/LoginForm.vue';
-import SignupForm from '../components/auth/SignupForm.vue';
-import BackButton from '../components/layout/BackButton.vue';
+import LoginForm from '@/components/auth/LoginForm.vue';
+import SignupForm from '@/components/auth/SignupForm.vue';
+import BackButton from '@/components/layout/BackButton.vue';
 
 const activeTab = ref('login');
 

@@ -50,7 +50,7 @@ import { useToast } from 'vue-toastification';
 import { MENU_API } from '@/config/api';
 import authFetch from '@/utils/authFetch';
 import MenuItemModal from './MenuItemModal.vue';
-import ConfirmationModal from '../layout/ConfirmationModal.vue';
+import ConfirmationModal from '@/components/layout/ConfirmationModal.vue';
 
 const menuItems = ref([]);
 const isLoading = ref(true);

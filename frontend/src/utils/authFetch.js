@@ -1,16 +1,17 @@
 import { AUTH_API } from '@/config/api';
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
 
 const getAdminToken = () => {
-  const tokenString = localStorage.getItem('admin_token');
+  const tokenString = localStorage.getItem(AUTH_TOKEN_KEYS.ADMIN);
   return tokenString ? JSON.parse(tokenString) : null;
 };
 
 const setAdminToken = (tokens) => {
-  localStorage.setItem('admin_token', JSON.stringify(tokens));
+  localStorage.setItem(AUTH_TOKEN_KEYS.ADMIN, JSON.stringify(tokens));
 };
 
 const logoutAdmin = () => {
-  localStorage.removeItem('admin_token');
+  localStorage.removeItem(AUTH_TOKEN_KEYS.ADMIN);
   window.location.href = '/admin'; // Redirect to admin login
 };
 

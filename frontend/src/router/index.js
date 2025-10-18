@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import LandingPage from '../pages/LandingPage.vue';
-import AuthPage from '../pages/AuthPage.vue';
-import DashboardPage from '../pages/DashboardPage.vue';
-import AdminLoginPage from '../pages/AdminLoginPage.vue';
-import AdminDashboardPage from '../pages/AdminDashboardPage.vue';
-import ManageUsersPage from '../pages/ManageUsersPage.vue';
-import ManageMenuPage from '../pages/ManageMenuPage.vue';
-import MenuPage from '../pages/MenuPage.vue';
-import NotFoundPage from '../pages/NotFoundPage.vue'; // Import the new 404 page
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
+import LandingPage from '@/pages/LandingPage.vue';
+import AuthPage from '@/pages/AuthPage.vue';
+import DashboardPage from '@/pages/DashboardPage.vue';
+import AdminLoginPage from '@/pages/AdminLoginPage.vue';
+import AdminDashboardPage from '@/pages/AdminDashboardPage.vue';
+import ManageUsersPage from '@/pages/ManageUsersPage.vue';
+import ManageMenuPage from '@/pages/ManageMenuPage.vue';
+import MenuPage from '@/pages/MenuPage.vue';
+import NotFoundPage from '@/pages/NotFoundPage.vue';
 
 const routes = [
   {
@@ -72,8 +73,8 @@ router.beforeEach((to, from, next) => {
   const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
   
-  const adminToken = localStorage.getItem('admin_token');
-  const userToken = localStorage.getItem('user_token');
+  const adminToken = localStorage.getItem(AUTH_TOKEN_KEYS.ADMIN);
+  const userToken = localStorage.getItem(AUTH_TOKEN_KEYS.USER);
 
   if (requiresAdmin && !adminToken) {
     // Redirect to admin login if not authenticated as admin

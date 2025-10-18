@@ -29,6 +29,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
 
 const isMenuOpen = ref(false);
 const router = useRouter();
@@ -39,8 +40,8 @@ const toggleMenu = () => {
 
 const logout = () => {
   // Remove both user and admin tokens to ensure a clean logout
-  localStorage.removeItem('user_token');
-  localStorage.removeItem('admin_token');
+  localStorage.removeItem(AUTH_TOKEN_KEYS.USER);
+  localStorage.removeItem(AUTH_TOKEN_KEYS.ADMIN);
 
   console.log('User logged out');
   isMenuOpen.value = false;

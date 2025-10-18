@@ -30,7 +30,7 @@
 
 <script setup>
 import { ref, watch } from 'vue';
-import BaseModal from '../layout/BaseModal.vue';
+import BaseModal from '@/components/layout/BaseModal.vue';
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },

@@ -48,7 +48,7 @@ import { ref, onMounted } from 'vue';
 import { USERS_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
 import authFetch from '@/utils/authFetch';
-import ConfirmationModal from '../layout/ConfirmationModal.vue';
+import ConfirmationModal from '@/components/layout/ConfirmationModal.vue';
 
 const users = ref([]);
 const isLoading = ref(true);

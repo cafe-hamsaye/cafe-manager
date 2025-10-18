@@ -6,5 +6,5 @@
 </template>
 
 <script setup>
-import MenuComponent from '../components/Menu.vue';
+import MenuComponent from '@/components/Menu.vue';
 </script>

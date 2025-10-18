@@ -5,5 +5,5 @@
 </template>
 
 <script setup>
-import MenuTable from '../components/admin/MenuTable.vue';
+import MenuTable from '@/components/admin/MenuTable.vue';
 </script>

@@ -40,6 +40,8 @@ import { useRouter } from 'vue-router';
 import { AUTH_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
 
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
+
 const username = ref('');
 const password = ref('');
 const passwordFieldType = ref('password');
@@ -71,7 +73,7 @@ const handleSubmit = async () => {
     }
 
     // Save the token to localStorage
-    localStorage.setItem('admin_token', JSON.stringify({ access: data.access, refresh: data.refresh }));
+    localStorage.setItem(AUTH_TOKEN_KEYS.ADMIN, JSON.stringify({ access: data.access, refresh: data.refresh }));
 
     toast.success(data.message);
     router.push('/admin-panel');
