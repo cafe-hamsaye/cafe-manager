@@ -10,6 +10,7 @@ export const AUTH_API = {
 
 export const USERS_API = {
   LIST: `${API_BASE_URL}/auth/users/`,
+  UPDATE: (userId) => `${API_BASE_URL}/auth/users/${userId}/`,
   DELETE: (userId) => `${API_BASE_URL}/auth/users/${userId}/`,
 };
 

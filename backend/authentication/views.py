@@ -9,13 +9,26 @@ from .permissions import IsAdmin
 
 class UserViewSet(viewsets.ModelViewSet):
     """
-    A viewset for viewing and deleting user instances.
+    A viewset for viewing, updating, and deleting user instances.
     Accessible only by admin users.
     """
     queryset = User.objects.all().order_by('-id')
     serializer_class = UserSerializer
     permission_classes = [IsAdmin] # Use the new permission class
-    http_method_names = ['get', 'delete', 'head', 'options'] # Allow only list, retrieve, destroy
+    http_method_names = ['get', 'put', 'patch', 'delete', 'head', 'options'] # Allow list, retrieve, update, and destroy
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({'message': 'کاربر با موفقیت به‌روزرسانی شد.', 'data': serializer.data})
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

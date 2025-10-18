@@ -8,21 +8,32 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'first_name', 'last_name', 'phone_number', 'password', 'password2')
+        fields = ('id', 'first_name', 'last_name', 'phone_number', 'password', 'password2', 'is_cafe_staff')
         extra_kwargs = {
             'password': {'write_only': True},
             'first_name': {'required': True, 'error_messages': {'required': 'لطفا نام خود را وارد کنید', 'blank': 'لطفا نام خود را وارد کنید'}},
             'last_name': {'required': True, 'error_messages': {'required': 'لطفا نام خانوادگی خود را وارد کنید', 'blank': 'لطفا نام خانوادگی خود را وارد کنید'}},
             'phone_number': {'required': True, 'error_messages': {'required': 'لطفا شماره تلفن خود را وارد کنید', 'blank': 'لطفا شماره تلفن خود را وارد کنید'}},
+            'is_cafe_staff': {'read_only': True}, # Default to read-only
         }
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request')
+        if request and request.user and request.user.is_superuser:
+            self.fields['is_cafe_staff'].read_only = False
+
     def validate(self, data):
-        if data['password'] != data['password2']:
+        # password validation is only for creation
+        if 'password' in data and 'password2' in data and data['password'] != data['password2']:
             raise serializers.ValidationError({"password": "رمزهای عبور یکسان نیستند!"})
         return data
 
     def create(self, validated_data):
         validated_data.pop('password2', None)  # Remove password2 before creating user
+        # Ensure is_cafe_staff is not set by non-admins during creation
+        if not self.context.get('request').user.is_superuser:
+            validated_data['is_cafe_staff'] = False
         user = User.objects.create_user(**validated_data)
         return user
 
@@ -44,6 +55,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         # Add custom claims
         token['first_name'] = user.first_name
         token['last_name'] = user.last_name
+        token['is_cafe_staff'] = user.is_cafe_staff
 
         return token
 

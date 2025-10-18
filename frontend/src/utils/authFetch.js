@@ -31,12 +31,23 @@ const processQueue = (error, token = null) => {
 
 const authFetch = async (url, options = {}) => {
   let token = getAdminToken();
+
+  // Default headers
+  const defaultHeaders = {};
+
   if (token) {
-    options.headers = {
-      ...options.headers,
-      'Authorization': `Bearer ${token.access}`,
-    };
+    defaultHeaders['Authorization'] = `Bearer ${token.access}`;
   }
+
+  // Set Content-Type for methods that typically have a body
+  if (options.body) {
+    defaultHeaders['Content-Type'] = 'application/json';
+  }
+
+  options.headers = {
+    ...defaultHeaders,
+    ...options.headers,
+  };
 
   let response = await fetch(url, options);
 
