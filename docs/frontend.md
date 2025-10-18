@@ -15,7 +15,8 @@ frontend/
 │   │   ├── layout/         # Layout components (Header, Footer, Background, DashboardHeader, AdminHeader, UserProfileMenu, BackButton, BaseModal, ConfirmationModal)
 │   │   └── Menu.vue
 │   ├── config/             # Configuration files (e.g., API endpoint settings)
-│   │   └── api.js
+│   │   ├── api.js
+│   │   └── constants.js
 │   ├── css/                # CSS stylesheets
 │   │   └── main.css
 │   ├── pages/              # Main page components for different routes
@@ -27,6 +28,8 @@ frontend/
 │   │   └── ManageUsersPage.vue
 │   ├── router/             # Vue Router configuration
 │   │   └── index.js
+│   ├── utils/              # Utility functions
+│   │   └── authFetch.js
 │   ├── App.vue             # The root Vue component
 │   └── main.js             # The entry point of the application
 │
@@ -42,10 +45,11 @@ frontend/
 
 -   **`src/`**: This is the heart of the Vue application, containing all the source code.
     -   **`components/layout/`**: This folder now contains specialized headers (`DashboardHeader`, `AdminHeader` with corrected item alignment), a reusable `UserProfileMenu`, and a `BackButton` used on auth pages. It also includes reusable modal components: `BaseModal.vue` for the basic modal structure and `ConfirmationModal.vue` for showing confirmation dialogs.
-    -   **`config/`**: Contains configuration files. `api.js` is used to configure the base URL for the backend API, making it easy to change. It now includes endpoints for the menu API.
+    -   **`config/`**: Contains configuration files. `api.js` is used to configure the base URL for the backend API, making it easy to change. It now includes endpoints for the menu API. `constants.js` stores constant values used throughout the application, such as local storage keys.
     -   **`css/`**: For global CSS styles. `main.css` contains styles that apply to the entire application.
     -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage`, `AdminDashboardPage`, `ManageUsersPage`, and `ManageMenuPage` for administrators, as well as a public `MenuPage`.
     -   **`router/`**: This directory contains the Vue Router configuration. `index.js` defines all the application routes and maps them to the corresponding page components. It now includes routes for menu management and the public menu page.
+    -   **`utils/`**: This directory contains utility functions. `authFetch.js` is a utility for making authenticated API requests, handling token refresh, and logout.
     -   **`components/admin/`**: This folder contains components that are specific to the admin panel, such as the `UsersTable.vue` for managing users, `MenuTable.vue` for managing menu items, and `MenuItemModal.vue` for adding and editing menu items.
     -   **`components/Menu.vue`**: A component that displays the menu to regular users.
     -   **`App.vue`**: The root component of the application. It has been updated with logic to conditionally render the correct header (generic, dashboard, or admin) based on the current route, and to hide the header/footer on the authentication page.

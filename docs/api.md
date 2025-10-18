@@ -293,6 +293,115 @@ This file contains the documentation for all available backend endpoints.
 
 ---
 
+### `GET /api/auth/users/{id}/`
+
+**Description:** Retrieves a specific user by their ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "phone_number": "09123456789"
+}
+```
+
+**Error Responses:**
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
+
+---
+
+### `PUT /api/auth/users/{id}/`
+
+**Description:** Updates a specific user by their ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Request Body:**
+```json
+{
+  "first_name": "string",
+  "last_name": "string",
+  "phone_number": "09123456789",
+  "password": "newpassword"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "phone_number": "09123456789"
+}
+```
+
+**Error Responses:**
+- **Code:** `400 Bad Request`
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
+
+---
+
+### `PATCH /api/auth/users/{id}/`
+
+**Description:** Partially updates a specific user by their ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Request Body:**
+```json
+{
+  "first_name": "string"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "first_name": "string",
+  "last_name": "string",
+  "phone_number": "09123456789"
+}
+```
+
+**Error Responses:**
+- **Code:** `400 Bad Request`
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
+
+---
+
 ## Menu Management
 
 ### `GET /api/menu/`
@@ -415,6 +524,67 @@ This file contains the documentation for all available backend endpoints.
 - **Code:** `204 No Content`
 
 **Error Responses:**
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
+
+---
+
+### `GET /api/menu/{id}/`
+
+**Description:** Retrieves a specific menu item by its ID.
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Error Responses:**
+- **Code:** `404 Not Found`
+
+---
+
+### `PATCH /api/menu/{id}/`
+
+**Description:** Partially updates a specific menu item by its ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Request Body:**
+```json
+{
+  "name": "string"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Error Responses:**
+- **Code:** `400 Bad Request`
 - **Code:** `401 Unauthorized`
 - **Code:** `403 Forbidden`
 - **Code:** `404 Not Found`
