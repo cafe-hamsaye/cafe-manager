@@ -38,7 +38,10 @@ const toggleMenu = () => {
 };
 
 const logout = () => {
-  // TODO: Implement actual token removal from localStorage
+  // Remove both user and admin tokens to ensure a clean logout
+  localStorage.removeItem('user_token');
+  localStorage.removeItem('admin_token');
+
   console.log('User logged out');
   isMenuOpen.value = false;
   router.push('/');

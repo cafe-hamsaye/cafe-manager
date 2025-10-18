@@ -23,7 +23,7 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: DashboardPage,
-    // meta: { requiresAuth: true } // Example for protected route
+    meta: { requiresAuth: true } // Protected route for users
   },
   {
     path: '/admin',
@@ -34,19 +34,19 @@ const routes = [
     path: '/admin-panel',
     name: 'AdminDashboard',
     component: AdminDashboardPage,
-    // meta: { requiresAdmin: true } // Example for protected route
+    meta: { requiresAdmin: true } // Protected route for admins
   },
   {
     path: '/admin-panel/users',
     name: 'ManageUsers',
     component: ManageUsersPage,
-    // meta: { requiresAdmin: true } // Example for protected route
+    meta: { requiresAdmin: true } // Protected route for admins
   },
   {
     path: '/admin-panel/menu',
     name: 'ManageMenu',
     component: ManageMenuPage,
-    // meta: { requiresAdmin: true } // Example for protected route
+    meta: { requiresAdmin: true } // Protected route for admins
   },
   {
     path: '/menu',
@@ -58,6 +58,26 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// Navigation Guard
+router.beforeEach((to, from, next) => {
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  
+  const adminToken = localStorage.getItem('admin_token');
+  const userToken = localStorage.getItem('user_token');
+
+  if (requiresAdmin && !adminToken) {
+    // Redirect to admin login if not authenticated as admin
+    next({ name: 'AdminLogin' });
+  } else if (requiresAuth && !userToken) {
+    // Redirect to user login if not authenticated as user
+    next({ name: 'Auth' });
+  } else {
+    // Otherwise, allow navigation
+    next();
+  }
 });
 
 export default router;

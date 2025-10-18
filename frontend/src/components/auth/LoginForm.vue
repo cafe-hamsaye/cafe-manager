@@ -71,6 +71,9 @@ const handleSubmit = async () => {
       throw new Error(errorMessage);
     }
 
+    // Save the token to localStorage
+    localStorage.setItem('user_token', JSON.stringify({ access: data.access, refresh: data.refresh }));
+
     toast.success(data.message);
     router.push('/dashboard');
 

@@ -102,7 +102,7 @@ const openConfirmDeleteModal = (item) => {
 const handleMenuItemSubmit = async (formData) => {
   const itemId = formData.get('id'); // FormData doesn't have item.id directly
   const url = isEdit.value ? MENU_API.UPDATE(itemId) : MENU_API.CREATE;
-  const method = isEdit.value ? 'PUT' : 'POST';
+  const method = isEdit.value ? 'PATCH' : 'POST';
 
   try {
     const response = await authFetch(url, {

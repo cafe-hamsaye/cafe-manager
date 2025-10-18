@@ -16,7 +16,7 @@
     content-class="vfm-content"
     overlay-class="vfm-overlay"
   >
-    <div class="bg-surface border border-border-subtle rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto">
+    <div class="bg-surface border border-border-subtle rounded-2xl shadow-xl p-8 w-full max-w-md mx-auto max-h-[90vh] overflow-y-auto">
       <div class="flex items-center justify-between mb-6">
         <h3 class="text-xl font-bold text-heading">{{ title }}</h3>
         <button @click="emit('update:modelValue', false)" class="text-body hover:text-heading transition-colors">

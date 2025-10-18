@@ -24,7 +24,7 @@
             <td class="px-6 py-4 text-body">{{ user.last_name }}</td>
             <td class="px-6 py-4 text-body" style="direction: ltr; text-align: right;">{{ user.phone_number }}</td>
             <td class="px-6 py-4">
-              <button @click="confirmDeleteUser(user)" class="text-red-500 hover:text-red-700 transition-colors font-medium">
+              <button @click="openConfirmDeleteModal(user)" class="text-red-500 hover:text-red-700 transition-colors font-medium">
                 حذف
               </button>
             </td>
@@ -32,6 +32,14 @@
         </tbody>
       </table>
     </div>
+    <!-- Confirmation Modal -->
+    <confirmation-modal 
+      v-if="showConfirmDeleteModal"
+      v-model="showConfirmDeleteModal" 
+      title="تایید حذف کاربر" 
+      :message="`آیا از حذف کاربر '${userToDelete.first_name} ${userToDelete.last_name}' اطمینان دارید؟`"
+      @confirm="deleteUser" 
+    />
   </div>
 </template>
 
@@ -40,11 +48,16 @@ import { ref, onMounted } from 'vue';
 import { USERS_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
 import authFetch from '@/utils/authFetch';
+import ConfirmationModal from '../layout/ConfirmationModal.vue';
 
 const users = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
 const toast = useToast();
+
+// State for the confirmation modal
+const showConfirmDeleteModal = ref(false);
+const userToDelete = ref(null);
 
 const fetchUsers = async () => {
   isLoading.value = true;
@@ -65,15 +78,15 @@ const fetchUsers = async () => {
   }
 };
 
-const confirmDeleteUser = (user) => {
-  if (window.confirm(`آیا از حذف کاربر "${user.first_name} ${user.last_name}" اطمینان دارید؟`)) {
-    deleteUser(user.id);
-  }
+const openConfirmDeleteModal = (user) => {
+  userToDelete.value = user;
+  showConfirmDeleteModal.value = true;
 };
 
-const deleteUser = async (userId) => {
+const deleteUser = async () => {
+  if (!userToDelete.value) return;
   try {
-    const response = await authFetch(USERS_API.DELETE(userId), {
+    const response = await authFetch(USERS_API.DELETE(userToDelete.value.id), {
       method: 'DELETE',
     });
     const data = await response.json();
@@ -81,10 +94,12 @@ const deleteUser = async (userId) => {
       throw new Error(data.detail || 'حذف کاربر با خطا مواجه شد.');
     }
     toast.success(data.message);
-    fetchUsers();
+    fetchUsers(); // Refresh the list
   } catch (err) {
     console.error('deleteUser error:', err);
     toast.error(err.message);
+  } finally {
+    userToDelete.value = null; // Reset
   }
 };
 

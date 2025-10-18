@@ -13,12 +13,6 @@ export const USERS_API = {
   DELETE: (userId) => `${API_BASE_URL}/auth/users/${userId}/`,
 };
 
-export const EXAM_API = {
-  GET_ALL: `${API_BASE_URL}/exams`,
-  GET_PURCHASED: `${API_BASE_URL}/exams/purchased`,
-  PURCHASE: (examId) => `${API_BASE_URL}/exams/${examId}/purchase`,
-};
-
 export const MENU_API = {
   LIST: `${API_BASE_URL}/menu/`,
   CREATE: `${API_BASE_URL}/menu/`,
