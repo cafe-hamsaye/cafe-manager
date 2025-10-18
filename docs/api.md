@@ -290,3 +290,131 @@ This file contains the documentation for all available backend endpoints.
 - **Code:** `403 Forbidden`
 
 - **Code:** `404 Not Found`
+
+---
+
+## Menu Management
+
+### `GET /api/menu/`
+
+**Description:** Retrieves a list of all menu items.
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+[
+  {
+    "id": 1,
+    "name": "string",
+    "description": "string",
+    "price": "string",
+    "image_url": "string"
+  },
+  ...
+]
+```
+
+---
+
+### `POST /api/menu/`
+
+**Description:** Creates a new menu item. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Success Response:**
+- **Code:** `201 Created`
+- **Content:**
+```json
+{
+  "id": 1,
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Error Responses:**
+- **Code:** `400 Bad Request`
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+
+---
+
+### `PUT /api/menu/{id}/`
+
+**Description:** Updates a specific menu item by its ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "name": "string",
+  "description": "string",
+  "price": "string",
+  "image_url": "string"
+}
+```
+
+**Error Responses:**
+- **Code:** `400 Bad Request`
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
+
+---
+
+### `DELETE /api/menu/{id}/`
+
+**Description:** Deletes a specific menu item by its ID. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Success Response:**
+- **Code:** `204 No Content`
+
+**Error Responses:**
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`
+- **Code:** `404 Not Found`
