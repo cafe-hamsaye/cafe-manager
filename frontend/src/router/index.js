@@ -7,6 +7,7 @@ import AdminDashboardPage from '../pages/AdminDashboardPage.vue';
 import ManageUsersPage from '../pages/ManageUsersPage.vue';
 import ManageMenuPage from '../pages/ManageMenuPage.vue';
 import MenuPage from '../pages/MenuPage.vue';
+import NotFoundPage from '../pages/NotFoundPage.vue'; // Import the new 404 page
 
 const routes = [
   {
@@ -52,6 +53,12 @@ const routes = [
     path: '/menu',
     name: 'Menu',
     component: MenuPage,
+  },
+  // Catch-all route must be last
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFoundPage,
   },
 ];
 
