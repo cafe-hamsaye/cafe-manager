@@ -189,52 +189,29 @@ This file contains the documentation for all available backend endpoints.
 
 ### `GET /api/auth/users/`
 
-
-
 **Description:** Retrieves a list of all registered users. Requires admin authentication.
 
-
-
 **Headers:**
-
 ```json
-
 {
-
   "Authorization": "Bearer your_admin_access_token"
-
 }
-
 ```
 
-
-
 **Success Response:**
-
 - **Code:** `200 OK`
-
 - **Content:**
-
 ```json
-
 [
-
   {
-
     "id": 1,
-
     "first_name": "string",
-
     "last_name": "string",
-
-    "phone_number": "09123456789"
-
+    "phone_number": "09123456789",
+    "is_cafe_staff": false
   },
-
   ...
-
 ]
-
 ```
 
 
@@ -312,7 +289,8 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789"
+  "phone_number": "09123456789",
+  "is_cafe_staff": false
 }
 ```
 
@@ -340,7 +318,8 @@ This file contains the documentation for all available backend endpoints.
   "first_name": "string",
   "last_name": "string",
   "phone_number": "09123456789",
-  "password": "newpassword"
+  "password": "newpassword",
+  "is_cafe_staff": true
 }
 ```
 
@@ -352,7 +331,8 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789"
+  "phone_number": "09123456789",
+  "is_cafe_staff": true
 }
 ```
 
@@ -378,7 +358,8 @@ This file contains the documentation for all available backend endpoints.
 **Request Body:**
 ```json
 {
-  "first_name": "string"
+  "first_name": "string",
+  "is_cafe_staff": true
 }
 ```
 
@@ -390,7 +371,8 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789"
+  "phone_number": "09123456789",
+  "is_cafe_staff": true
 }
 ```
 
