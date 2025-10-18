@@ -32,6 +32,7 @@ class UserSerializer(serializers.ModelSerializer):
         return value
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'phone_number'
     default_error_messages = {
         'no_active_account': 'شماره تلفن یا رمز عبور اشتباه است'
     }
@@ -47,6 +48,26 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
-class AdminLoginSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField(write_only=True)
+class AdminTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'username'
+    default_error_messages = {
+        'no_active_account': 'نام کاربری یا رمز عبور اشتباه است'
+    }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields[self.username_field] = serializers.CharField()
+        self.fields['password'] = serializers.CharField(
+            style={'input_type': 'password'},
+            write_only=True
+        )
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # Add custom claims
+        token['is_admin'] = True
+        token['username'] = user.username
+
+        return token

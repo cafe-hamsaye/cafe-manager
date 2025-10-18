@@ -71,7 +71,7 @@ This file contains the documentation for all available backend endpoints.
 
 ### `POST /api/auth/admin/login/`
 
-**Description:** This endpoint is used for admin login.
+**Description:** This endpoint is used for admin login. It uses a standard token-based authentication. The access token will contain an `is_admin` claim set to `true`.
 
 **Request Body:**
 ```json

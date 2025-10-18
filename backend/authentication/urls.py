@@ -4,7 +4,7 @@ from .views import (
     RegisterView, 
     MyTokenObtainPairView, 
     GetMeView, 
-    AdminLoginView,
+    AdminTokenObtainPairView,
     UserViewSet
 )
 from rest_framework_simplejwt.views import TokenRefreshView
@@ -17,7 +17,7 @@ router.register(r'users', UserViewSet, basename='user')
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
     path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('admin/login/', AdminLoginView.as_view(), name='admin_login'),
+    path('admin/login/', AdminTokenObtainPairView.as_view(), name='admin_login'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('user/', GetMeView.as_view(), name='get_me'),
     path('', include(router.urls)), # Add the router's URLs to our urlpatterns

@@ -66,15 +66,18 @@ const fetchUsers = async () => {
         'Authorization': `Bearer ${token}`,
       },
     });
+    console.log('fetchUsers response:', response);
 
     if (!response.ok) {
       const errorData = await response.json();
+      console.log('fetchUsers errorData:', errorData);
       throw new Error(errorData.detail || 'Failed to fetch users.');
     }
 
     users.value = await response.json();
 
   } catch (err) {
+    console.error('fetchUsers error:', err);
     error.value = err.message;
     toast.error(err.message);
   } finally {
@@ -101,9 +104,11 @@ const deleteUser = async (userId) => {
         'Authorization': `Bearer ${token}`,
       },
     });
+    console.log('deleteUser response:', response);
 
     if (!response.ok && response.status !== 204) { // 204 No Content is a success status
       const errorData = await response.json();
+      console.log('deleteUser errorData:', errorData);
       throw new Error(errorData.detail || 'Failed to delete user.');
     }
 
@@ -112,6 +117,7 @@ const deleteUser = async (userId) => {
     fetchUsers();
 
   } catch (err) {
+    console.error('deleteUser error:', err);
     toast.error(err.message);
   }
 };
