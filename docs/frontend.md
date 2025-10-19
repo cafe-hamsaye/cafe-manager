@@ -14,19 +14,13 @@ frontend/
 │   │   │   ├── StaffTable.vue
 │   │   │   └── StaffModal.vue
 │   │   ├── auth/           # Components related to authentication
-│   │   ├── layout/         # Layout components (Header, Footer, Background, DashboardHeader, AdminHeader, UserProfileMenu, BackButton, BaseModal, ConfirmationModal)
-│   │   └── Menu.vue
-│   ├── config/             # Configuration files (e.g., API endpoint settings)
-│   │   ├── api.js
-│   │   └── constants.js
-│   ├── css/                # CSS stylesheets
-│   │   └── main.css
+│   │   ├── layout/         # Layout components (Header, Footer, StaffHeader, ...)
+...
 │   ├── pages/              # Main page components for different routes
-│   │   ├── AuthPage.vue
-│   │   ├── LandingPage.vue
-│   │   ├── DashboardPage.vue
-│   │   ├── AdminLoginPage.vue
-│   │   └── AdminDashboardPage.vue
+│   │   ├── ...
+│   │   ├── AdminDashboardPage.vue
+│   │   ├── StaffLoginPage.vue
+│   │   └── StaffDashboardPage.vue
 │   ├── router/             # Vue Router configuration
 │   │   └── index.js
 │   ├── utils/              # Utility functions

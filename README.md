@@ -6,6 +6,7 @@ Cafe Manager is a comprehensive, full-stack web application designed to streamli
 
 - **User Authentication:** Secure registration and login for customers.
 - **Admin Authentication:** Separate, secure login for administrators.
+- **Staff Authentication:** Separate, secure login for staff members.
 - **Menu Display:** A public page for anyone to view the cafe's menu.
 - **User Dashboard:** A dedicated dashboard for logged-in users.
 - **Admin Panel:** A powerful interface for administrators to:

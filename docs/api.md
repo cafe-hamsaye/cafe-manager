@@ -596,6 +596,54 @@ This file contains the documentation for all available backend endpoints.
 
 ## Staff Management (Admin Only)
 
+## Staff Management (Admin Only)
+
+### `POST /api/staff/login/`
+
+**Description:** This endpoint is used for staff login.
+
+**Request Body:**
+```json
+{
+  "number": "string",
+  "password": "yourpassword"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "refresh": "your_refresh_token",
+  "access": "your_access_token"
+}
+```
+
+### `GET /api/staff/me/`
+
+**Description:** Returns the information of the logged-in staff member.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_staff_access_token"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "id": 1,
+  "number": "string",
+  "last_login": "datetime"
+}
+```
+
+---
+
 Provides full CRUD functionality for managing staff members.
 
 - **`GET /api/staff/`**: List all staff members.

@@ -3,6 +3,7 @@
     <!-- Headers -->
     <DashboardHeader v-if="isUserDashboard" />
     <AdminHeader v-else-if="isAdminPanel" />
+    <StaffHeader v-else-if="isStaffDashboard" />
     <Header v-else-if="showGenericHeader" />
 
     <main class="flex-grow">
@@ -27,11 +28,12 @@ import Footer from './components/layout/Footer.vue';
 const route = useRoute();
 
 // Computed properties to determine which layout to show
-const isAuthPage = computed(() => route.path === '/auth' || route.path === '/admin');
+const isAuthPage = computed(() => route.path === '/auth' || route.path === '/admin' || route.path === '/staff');
 const isUserDashboard = computed(() => route.path.startsWith('/dashboard'));
 const isAdminPanel = computed(() => route.path.startsWith('/admin-panel'));
+const isStaffDashboard = computed(() => route.path.startsWith('/staff-panel'));
 
 // Show generic header and footer on pages that are not special auth/dashboard/admin pages
-const showGenericHeader = computed(() => !isAuthPage.value && !isUserDashboard.value && !isAdminPanel.value);
+const showGenericHeader = computed(() => !isAuthPage.value && !isUserDashboard.value && !isAdminPanel.value && !isStaffDashboard.value);
 
 </script>

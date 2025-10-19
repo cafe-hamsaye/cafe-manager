@@ -153,12 +153,13 @@ AUTH_USER_MODEL = 'authentication.User'
 
 AUTHENTICATION_BACKENDS = [
     'authentication.backends.AdminBackend',
+    'staff.backends.StaffBackend',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'authentication.jwt.MultiModelJWTAuthentication',
+        'authentication.jwt.CustomJWTAuthentication', # A new class that will handle all models
     )
 }
 

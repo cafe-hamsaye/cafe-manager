@@ -26,5 +26,7 @@ export const STAFF_API = {
   CREATE: `${API_BASE_URL}/staff/`,
   UPDATE: (staffId) => `${API_BASE_URL}/staff/${staffId}/`,
   DELETE: (staffId) => `${API_BASE_URL}/staff/${staffId}/`,
+  LOGIN: `${API_BASE_URL}/staff/login/`,
+  ME: `${API_BASE_URL}/staff/me/`,
 };
 

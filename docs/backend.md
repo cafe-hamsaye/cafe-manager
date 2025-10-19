@@ -57,7 +57,8 @@ backend/
     -   **`serializers.py`**: Contains DRF serializers to convert model instances to/from JSON. The `UserSerializer` now also handles backend validation for password confirmation.
     -   **`views.py`**: Holds the API views. The `AdminLoginView` has been refactored to use a standard method for JWT generation. The views also now return standardized Persian success messages.
     -   **`urls.py`**: Defines the specific URL patterns for the authentication app, including the new `/api/auth/admin/login/` endpoint.
-    -   **`permissions.py`**: Contains custom permission classes, such as `IsAdmin`, to protect endpoints and ensure that only authorized users (like administrators) can access them.
+    -   **`jwt.py`**: Contains the `CustomJWTAuthentication` class, which is a custom authentication backend capable of handling three different user models (User, Admin, and Staff) by inspecting claims within the JWT.
+    -   **`backends.py`**: Contains custom authentication backends, such as `StaffBackend`, which defines how to authenticate users against the `Staff` model.
 
 -   **`menu/`**: This app manages the cafe's menu items. It provides API endpoints for listing, creating, updating, and deleting menu items.
 

@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Staff
 
 class StaffSerializer(serializers.ModelSerializer):
@@ -18,3 +19,19 @@ class StaffSerializer(serializers.ModelSerializer):
             instance.set_password(validated_data['password'])
         instance.save()
         return instance
+
+# This now mirrors MyTokenObtainPairSerializer exactly
+class StaffTokenObtainPairSerializer(TokenObtainPairSerializer):
+    username_field = 'number'
+
+    default_error_messages = {
+        'no_active_account': 'شماره یا رمز عبور اشتباه است'
+    }
+
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims for staff
+        token['is_staff_member'] = True
+        token['number'] = user.number
+        return token
