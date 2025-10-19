@@ -41,7 +41,7 @@ export default {
   },
   mounted() {
     this.fetchQRCode();
-    this.intervalId = setInterval(this.fetchQRCode, 300000);
+    this.intervalId = setInterval(this.fetchQRCode, 10000);
   },
   beforeUnmount() {
     clearInterval(this.intervalId);

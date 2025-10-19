@@ -6,6 +6,10 @@
           <router-link to="/staff-panel" class="text-xl font-bold text-heading">
             پنل کارکنان
           </router-link>
+          <div class="border-l border-border-subtle h-6"></div>
+          <button @click="$emit('open-scanner')" class="text-sm font-medium text-body hover:text-heading transition-colors">
+            ثبت تردد
+          </button>
           <!-- Add other staff menu items here -->
         </div>
         <div>
