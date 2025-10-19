@@ -3,3 +3,4 @@ djangorestframework
 djangorestframework-simplejwt
 mysql-connector-python
 python-dotenv
+django-cors-headers
