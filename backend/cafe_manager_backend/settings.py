@@ -165,6 +165,7 @@ REST_FRAMEWORK = {
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
+    'https://stunning-memory-r4694jwj7gjpfprj7-5173.app.github.dev',
 ]
 
 

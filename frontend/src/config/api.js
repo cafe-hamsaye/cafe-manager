@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8000/api';
+export const API_BASE_URL = 'https://stunning-memory-r4694jwj7gjpfprj7-8000.app.github.dev/api';
 
 export const AUTH_API = {
   REGISTER: `${API_BASE_URL}/auth/register/`,
