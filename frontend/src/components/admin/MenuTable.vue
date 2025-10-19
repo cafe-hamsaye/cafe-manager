@@ -62,7 +62,7 @@
     <!-- Modals -->
     <template v-if="areModalsMounted">
       <menu-item-modal v-model="showMenuItemModal" :is-edit="isEdit" :item="selectedItem" @submit="handleMenuItemSubmit" />
-      <confirmation-modal v-model="showConfirmDeleteModal" title="تایید حذف" message="آیا از حذف این آیتم اطمینان دارید؟" @confirm="deleteMenuItem" />
+      <confirmation-modal v-model="showConfirmDeleteModal" title="تایید حذف" :message="`آیا از حذف آیتم '${selectedItem?.name}' اطمینان دارید؟`" @confirm="deleteMenuItem" />
     </template>
   </div>
 </template>
@@ -83,7 +83,7 @@ const toast = useToast();
 const showMenuItemModal = ref(false);
 const showConfirmDeleteModal = ref(false);
 const isEdit = ref(false);
-const selectedItem = ref({});
+const selectedItem = ref(null);
 const areModalsMounted = ref(false);
 
 const getAuthHeaders = () => {
@@ -95,7 +95,6 @@ const fetchMenuItems = async () => {
   isLoading.value = true;
   error.value = null;
   try {
-    // No auth needed for public menu listing
     const response = await axios.get(MENU_API.LIST);
     menuItems.value = response.data;
   } catch (err) {
@@ -155,11 +154,14 @@ const deleteMenuItem = async () => {
     fetchMenuItems();
   } catch (err) {
     toast.error('حذف آیتم منو با خطا مواجه شد.');
+  } finally {
+    showConfirmDeleteModal.value = false;
+    selectedItem.value = null;
   }
 };
 
 onMounted(() => {
   fetchMenuItems();
-  areModalsMounted.value = true; // Pre-warm modals
+  areModalsMounted.value = true;
 });
 </script>

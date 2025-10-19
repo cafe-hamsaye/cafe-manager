@@ -46,8 +46,10 @@
       </table>
     </div>
 
-    <StaffModal v-model="isModalOpen" :staff="selectedStaff" @save="handleSave" />
-    <ConfirmationModal v-model="showConfirmDeleteModal" title="تایید حذف" :message="`آیا از حذف کارمند با شماره '${staffToDelete?.number}' اطمینان دارید؟`" @confirm="deleteStaff" />
+    <template v-if="areModalsMounted">
+      <StaffModal v-model="isModalOpen" :staff="selectedStaff" @save="handleSave" />
+      <ConfirmationModal v-model="showConfirmDeleteModal" title="تایید حذف" :message="`آیا از حذف کارمند با شماره '${staffToDelete?.number}' اطمینان دارید؟`" @confirm="deleteStaff" />
+    </template>
   </div>
 </template>
 
@@ -67,6 +69,7 @@ const selectedStaff = ref(null);
 const showConfirmDeleteModal = ref(false);
 const staffToDelete = ref(null);
 const toast = useToast();
+const areModalsMounted = ref(false);
 
 const getAuthHeaders = () => {
   const token = JSON.parse(localStorage.getItem('admin_token'))?.access;
@@ -121,5 +124,8 @@ const deleteStaff = async () => {
   }
 };
 
-onMounted(fetchStaff);
+onMounted(() => {
+  fetchStaff();
+  areModalsMounted.value = true;
+});
 </script>

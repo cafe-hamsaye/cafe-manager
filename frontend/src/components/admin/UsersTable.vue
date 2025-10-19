@@ -57,13 +57,14 @@
     </div>
 
     <!-- Confirmation Modal -->
-    <confirmation-modal 
-      v-if="showConfirmDeleteModal"
-      v-model="showConfirmDeleteModal" 
-      title="تایید حذف کاربر" 
-      :message="`آیا از حذف کاربر '${userToDelete.first_name} ${userToDelete.last_name}' اطمینان دارید؟`"
-      @confirm="deleteUser" 
-    />
+    <template v-if="areModalsMounted">
+      <confirmation-modal 
+        v-model="showConfirmDeleteModal" 
+        title="تایید حذف کاربر" 
+        :message="`آیا از حذف کاربر '${userToDelete?.first_name} ${userToDelete?.last_name}' اطمینان دارید؟`"
+        @confirm="deleteUser" 
+      />
+    </template>
   </div>
 </template>
 
@@ -81,6 +82,7 @@ const toast = useToast();
 
 const showConfirmDeleteModal = ref(false);
 const userToDelete = ref(null);
+const areModalsMounted = ref(false);
 
 const getAuthHeaders = () => {
   const token = JSON.parse(localStorage.getItem('admin_token'))?.access;
@@ -116,10 +118,12 @@ const deleteUser = async () => {
     toast.error('حذف کاربر با خطا مواجه شد.');
   } finally {
     userToDelete.value = null;
+    showConfirmDeleteModal.value = false;
   }
 };
 
 onMounted(() => {
   fetchUsers();
+  areModalsMounted.value = true;
 });
 </script>

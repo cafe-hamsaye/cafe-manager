@@ -1,11 +1,15 @@
 <template>
-  <base-modal :model-value="modelValue" @update:model-value="(val) => emit('update:modelValue', val)" :title="title">
-    <p class="text-body mb-6">{{ message }}</p>
+  <BaseModal :model-value="modelValue" @update:model-value="(val) => emit('update:modelValue', val)" :title="title">
+    <p class="text-body mb-8">{{ message }}</p>
     <div class="flex justify-end space-x-4 space-x-reverse">
-      <button @click="confirm" class="px-4 py-2 bg-action text-white rounded-lg hover:bg-action-hover transition-colors">{{ confirmText }}</button>
-      <button @click="cancel" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors">{{ cancelText }}</button>
+      <button @click="emit('update:modelValue', false)" class="px-6 py-2.5 rounded-lg bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors">
+        انصراف
+      </button>
+      <button @click="handleConfirm" class="px-6 py-2.5 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-colors">
+        تایید و حذف
+      </button>
     </div>
-  </base-modal>
+  </BaseModal>
 </template>
 
 <script setup>
@@ -13,21 +17,14 @@ import BaseModal from './BaseModal.vue';
 
 const props = defineProps({
   modelValue: { type: Boolean, default: false },
-  title: { type: String, default: 'تایید' },
-  message: { type: String, default: 'آیا مطمئن هستید؟' },
-  confirmText: { type: String, default: 'بله' },
-  cancelText: { type: String, default: 'خیر' },
+  title: { type: String, required: true },
+  message: { type: String, required: true },
 });
 
-const emit = defineEmits(['update:modelValue', 'confirm', 'cancel']);
+const emit = defineEmits(['update:modelValue', 'confirm']);
 
-const confirm = () => {
+const handleConfirm = () => {
   emit('confirm');
-  emit('update:modelValue', false);
-};
-
-const cancel = () => {
-  emit('cancel');
   emit('update:modelValue', false);
 };
 </script>
