@@ -3,7 +3,26 @@
     <div class="px-6 py-4 border-b border-border-subtle">
       <h2 class="text-lg font-semibold text-heading">لیست کاربران</h2>
     </div>
-    <div v-if="isLoading" class="p-6 text-center text-body">در حال بارگذاری...</div>
+    <div v-if="isLoading" class="overflow-x-auto">
+      <table class="min-w-full text-sm text-right">
+        <thead class="bg-input-bg">
+          <tr>
+            <th class="px-6 py-3 font-medium text-heading">نام</th>
+            <th class="px-6 py-3 font-medium text-heading">نام خانوادگی</th>
+            <th class="px-6 py-3 font-medium text-heading">شماره تلفن</th>
+            <th class="px-6 py-3 font-medium text-heading">عملیات</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-border-subtle">
+          <tr v-for="n in 5" :key="n">
+            <td class="px-6 py-4"><Skeletor width="100%" /></td>
+            <td class="px-6 py-4"><Skeletor width="100%" /></td>
+            <td class="px-6 py-4"><Skeletor width="100%" /></td>
+            <td class="px-6 py-4"><Skeletor width="100%" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <div v-else-if="error" class="p-6 text-center text-red-500">{{ error }}</div>
     <div v-else class="overflow-x-auto">
       <table class="min-w-full text-sm text-right">

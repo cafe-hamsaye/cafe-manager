@@ -1,5 +1,19 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div v-for="n in 6" :key="n" class="bg-surface rounded-2xl border border-border-subtle shadow-xl overflow-hidden">
+      <Skeletor height="192px" />
+      <div class="p-6">
+        <Skeletor width="60%" height="28px" class="mb-2" />
+        <Skeletor width="100%" height="40px" class="mb-4" />
+        <div class="flex justify-between items-center">
+          <Skeletor width="30%" height="24px" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else-if="error" class="p-6 text-center text-red-500">{{ error }}</div>
+  <div v-else-if="menuItems.length === 0" class="p-6 text-center text-body">هیچ آیتمی در منو یافت نشد.</div>
+  <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     <div v-for="item in menuItems" :key="item.id" class="bg-surface rounded-2xl border border-border-subtle shadow-xl overflow-hidden">
       <img :src="item.image" :alt="item.name" class="w-full h-48 object-cover">
       <div class="p-6">
@@ -11,9 +25,6 @@
       </div>
     </div>
   </div>
-  <div v-if="isLoading" class="p-6 text-center text-body">در حال بارگذاری...</div>
-  <div v-else-if="error" class="p-6 text-center text-red-500">{{ error }}</div>
-  <div v-if="!isLoading && !error && menuItems.length === 0" class="p-6 text-center text-body">هیچ آیتمی در منو یافت نشد.</div>
 </template>
 
 <script setup>
