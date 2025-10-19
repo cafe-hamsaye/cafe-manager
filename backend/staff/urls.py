@@ -6,7 +6,7 @@ router = DefaultRouter()
 router.register(r'staff', StaffViewSet, basename='staff')
 
 urlpatterns = [
-    path('api/staff/login/', StaffTokenObtainPairView.as_view(), name='staff_login'),
-    path('api/staff/me/', GetMeView.as_view(), name='staff_me'),
-    path('api/', include(router.urls)),
+    path('staff/login/', StaffTokenObtainPairView.as_view(), name='staff_login'),
+    path('staff/me/', GetMeView.as_view(), name='staff_me'),
+    path('', include(router.urls)),
 ]
