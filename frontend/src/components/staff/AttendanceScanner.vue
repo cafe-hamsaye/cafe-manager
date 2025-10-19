@@ -48,10 +48,39 @@ import { useToast } from 'vue-toastification';
 import AttendanceActionModal from './AttendanceActionModal.vue';
 import { ATTENDANCE_API } from '@/config/api';
 
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
+
 const error = ref('');
+const log = ref('');
+const cameraReady = ref(false);
+const scannerReady = ref(false);
 const showConfirmModal = ref(false);
 const decodedToken = ref(null);
 const toast = useToast();
+
+const initCamera = async () => {
+  error.value = '';
+  log.value = 'در حال درخواست دسترسی به دوربین...';
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    stream.getTracks().forEach(track => track.stop());
+    cameraReady.value = true;
+    await nextTick(); // Wait for the DOM to update
+    scannerReady.value = true; // Now render the scanner
+    log.value = 'دوربین با موفقیت فعال شد. منتظر اسکن...';
+  } catch (err) {
+    if (err.name === 'NotAllowedError') {
+      error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید. لطفا از تنظیمات مرورگر آن را فعال کنید.';
+    } else {
+      error.value = `خطا در فعال‌سازی دوربین: ${err.name}`;
+    }
+    log.value = '';
+  }
+};
+
+const onLoaded = () => {
+  log.value = 'اسکنر آماده است. دوربین را به سمت کد QR بگیرید.';
+};
 
 const onDecode = (result) => {
   console.log('Decoded:', result);
