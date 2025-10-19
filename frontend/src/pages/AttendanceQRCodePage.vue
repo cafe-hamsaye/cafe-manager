@@ -25,7 +25,7 @@
 import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
 import QrcodeVue from 'qrcode.vue';
 import axios from 'axios';
-import { API_BASE_URL } from '@/config/api';
+import { API_BASE_URL, ATTENDANCE_API } from '@/config/api';
 
 export default {
   name: 'AttendanceQRCodePage',
@@ -44,7 +44,7 @@ export default {
     const fetchQRCode = async () => {
       try {
         const tokenData = JSON.parse(localStorage.getItem('admin_token'));
-        const response = await axios.get(`${API_BASE_URL}/attendance/qr-code/`, {
+        const response = await axios.get(ATTENDANCE_API.QR_CODE, {
           headers: { Authorization: `Bearer ${tokenData.access}` },
         });
         token.value = response.data.token;

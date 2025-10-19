@@ -46,52 +46,28 @@ import { StreamBarcodeReader } from "vue-barcode-reader";
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import AttendanceActionModal from './AttendanceActionModal.vue';
-import { AUTH_TOKEN_KEYS } from '@/config/constants';
+import { ATTENDANCE_API } from '@/config/api';
 
 const error = ref('');
-const log = ref('');
-const cameraReady = ref(false);
-const scannerReady = ref(false);
 const showConfirmModal = ref(false);
 const decodedToken = ref(null);
 const toast = useToast();
 
-const initCamera = async () => {
-  error.value = '';
-  log.value = 'در حال درخواست دسترسی به دوربین...';
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    stream.getTracks().forEach(track => track.stop());
-    cameraReady.value = true;
-    await nextTick(); // Wait for the DOM to update
-    scannerReady.value = true; // Now render the scanner
-    log.value = 'دوربین با موفقیت فعال شد. منتظر اسکن...';
-  } catch (err) {
-    if (err.name === 'NotAllowedError') {
-      error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید. لطفا از تنظیمات مرورگر آن را فعال کنید.';
-    } else {
-      error.value = `خطا در فعال‌سازی دوربین: ${err.name}`;
-    }
-    log.value = '';
+const onDecode = (result) => {
+  console.log('Decoded:', result);
+  if (result) {
+    decodedToken.value = result;
+    showConfirmModal.value = true;
   }
 };
 
+const onError = (err) => {
+  error.value = `خطا در دوربین: ${err.message}. لطفاً دسترسی به دوربین را در مرورگر خود بررسی کنید.`;
+  console.error(err);
+};
+
 const onLoaded = () => {
-  log.value = 'اسکنر آماده است. دوربین را به سمت کد QR بگیرید.';
-};
-
-const onDecode = (result) => {
-  log.value = 'کد با موفقیت اسکن شد!';
-  error.value = '';
-  decodedToken.value = result;
-  showConfirmModal.value = true;
-};
-
-const onCameraError = (err) => {
-  error.value = `خطای دوربین: ${err.name}`;
-  cameraReady.value = false;
-  scannerReady.value = false;
-  log.value = '';
+  console.log('Camera and scanner loaded successfully.');
 };
 
 const recordAttendance = async (status) => {
@@ -99,7 +75,7 @@ const recordAttendance = async (status) => {
 
   try {
     const token = JSON.parse(localStorage.getItem(AUTH_TOKEN_KEYS.STAFF))?.access;
-    await axios.post('/api/attendance/record/', 
+    await axios.post(ATTENDANCE_API.RECORD, 
       { token: decodedToken.value, status }, 
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -109,8 +85,6 @@ const recordAttendance = async (status) => {
   } finally {
     decodedToken.value = null;
     showConfirmModal.value = false;
-    cameraReady.value = false;
-    scannerReady.value = false;
   }
 };
 </script>

@@ -30,3 +30,8 @@ export const STAFF_API = {
   ME: `${API_BASE_URL}/staff/me/`,
 };
 
+export const ATTENDANCE_API = {
+  QR_CODE: `${API_BASE_URL}/attendance/qr-code/`,
+  RECORD: `${API_BASE_URL}/attendance/record/`,
+};
+
