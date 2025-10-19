@@ -1,17 +1,14 @@
 <template>
   <div class="max-w-md mx-auto text-center">
     <h2 class="text-2xl font-bold text-heading mb-4">اسکن کد QR</h2>
+    <p class="text-body mb-6">دوربین را به سمت کد QR بگیرید.</p>
     
-    <div v-if="!cameraReady && !error" class="p-8">
-        <p class="text-body mb-6">برای اسکن کد، نیاز به دسترسی به دوربین شما داریم.</p>
-        <button @click="initCamera" class="px-6 py-3 bg-action text-white rounded-lg">فعال‌سازی دوربین</button>
+    <div v-if="error" class="p-4 mb-4 text-red-700 bg-red-100 rounded-lg">
+      <p class="font-bold">خطا:</p>
+      <p>{{ error }}</p>
     </div>
 
-    <div v-if="cameraReady" class="border-4 border-gray-300 rounded-lg overflow-hidden w-64 h-64 mx-auto">
-      <qrcode-stream @decode="onDecode" @init="onInit" @error="onCameraError"></qrcode-stream>
-    </div>
-    <p v-if="log" class="text-sm text-gray-500 mt-2">{{ log }}</p>
-    <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
+    <StreamBarcodeReader @decode="onDecode" @error="onError" @loaded="onLoaded"></StreamBarcodeReader>
 
     <confirmation-modal 
       v-model="showConfirmModal"
@@ -27,71 +24,32 @@
 
 <script setup>
 import { ref } from 'vue';
-import { QrcodeStream } from 'vue-qrcode-reader';
+import { StreamBarcodeReader } from "vue-barcode-reader";
 import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import ConfirmationModal from '@/components/layout/ConfirmationModal.vue';
 import { AUTH_TOKEN_KEYS } from '@/config/constants';
 
 const error = ref('');
-const log = ref('');
-const cameraReady = ref(false);
 const showConfirmModal = ref(false);
 const decodedToken = ref(null);
 const toast = useToast();
 
-const initCamera = async () => {
-  error.value = '';
-  log.value = 'در حال درخواست دسترسی به دوربین...';
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    stream.getTracks().forEach(track => track.stop());
-    cameraReady.value = true;
-    log.value = 'دوربین با موفقیت فعال شد. منتظر اسکن...';
-  } catch (err) {
-    if (err.name === 'NotAllowedError') {
-      error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید. لطفا از تنظیمات مرورگر آن را فعال کنید.';
-    } else {
-      error.value = `خطا در فعال‌سازی دوربین: ${err.name}`;
-    }
-    log.value = '';
-  }
-};
-
-const onInit = async (promise) => {
-  log.value = 'در حال آماده‌سازی اسکنر...';
-  try {
-    await promise;
-    log.value = 'اسکنر آماده است. دوربین را به سمت کد QR بگیرید.';
-  } catch (err) {
-    if (err.name === 'NotAllowedError') {
-      error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید.';
-    } else if (err.name === 'NotFoundError') {
-      error.value = 'هیچ دوربینی در این دستگاه یافت نشد.';
-    } else if (err.name === 'NotSupportedError') {
-      error.value = 'دسترسی به دوربین در این مرورگر (در محیط ناامن) پشتیبانی نمی‌شود.';
-    } else if (err.name === 'NotReadableError') {
-      error.value = 'دوربین توسط یک برنامه دیگر در حال استفاده است.';
-    } else if (err.name === 'OverconstrainedError') {
-      error.value = 'دوربین نصب شده با کیفیت مورد نیاز سازگار نیست.';
-    } else {
-      error.value = `خطای ناشناخته دوربین: ${err.name}`;
-    }
-    log.value = '';
-  }
-};
-
 const onDecode = (result) => {
-  log.value = 'کد با موفقیت اسکن شد!';
-  error.value = '';
-  decodedToken.value = result;
-  showConfirmModal.value = true;
+  console.log('Decoded:', result);
+  if (result) {
+    decodedToken.value = result;
+    showConfirmModal.value = true;
+  }
 };
 
-const onCameraError = (err) => {
-  error.value = `خطای دوربین: ${err.name}`;
-  cameraReady.value = false;
-  log.value = '';
+const onError = (err) => {
+  error.value = `خطا در دوربین: ${err.message}. لطفاً دسترسی به دوربین را در مرورگر خود بررسی کنید.`;
+  console.error(err);
+};
+
+const onLoaded = () => {
+  console.log('Camera and scanner loaded successfully.');
 };
 
 const recordAttendance = async (status) => {
@@ -109,7 +67,6 @@ const recordAttendance = async (status) => {
   } finally {
     decodedToken.value = null;
     showConfirmModal.value = false;
-    cameraReady.value = false;
   }
 };
 </script>

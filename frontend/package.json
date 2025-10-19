@@ -24,7 +24,7 @@
     "qrcode.vue": "^3.4.0",
     "vue": "^3.5.22",
     "vue-final-modal": "^3.4.11",
-    "vue-qrcode-reader": "^5.5.5",
+    "vue-barcode-reader": "^1.0.3",
     "vue-router": "^4.5.1",
     "vue-skeletor": "^1.0.6",
     "vue-toastification": "^2.0.0-rc.5"
