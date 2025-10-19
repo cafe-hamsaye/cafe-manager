@@ -1,20 +1,26 @@
 <template>
-  <div>
-    <h1>Admin Dashboard</h1>
-    <p>Welcome to the admin panel.</p>
+  <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <component :is="activeComponent" />
   </div>
 </template>
 
 <script setup>
-// No script needed for this simple page
-</script>
+import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import UsersTable from '@/components/admin/UsersTable.vue';
+import MenuTable from '@/components/admin/MenuTable.vue';
 
-<style scoped>
-h1 {
-  text-align: center;
-  margin-top: 50px;
-}
-p {
-  text-align: center;
-}
-</style>
+const route = useRoute();
+const currentView = ref(route.query.view || 'users'); // Default to 'users'
+
+const componentMap = {
+  users: UsersTable,
+  menu: MenuTable,
+};
+
+const activeComponent = computed(() => componentMap[currentView.value] || UsersTable);
+
+watch(() => route.query.view, (newView) => {
+  currentView.value = newView || 'users';
+});
+</script>

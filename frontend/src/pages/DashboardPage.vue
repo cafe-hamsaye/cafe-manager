@@ -1,20 +1,28 @@
 <template>
-  <div>
-    <h1>User Dashboard</h1>
-    <p>Welcome to your dashboard.</p>
+  <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
+    <div v-if="!activeComponent">
+      <h1 class="text-2xl font-bold text-heading mb-4">داشبورد شما</h1>
+      <p class="text-body">خوش آمدید!</p>
+    </div>
+    <component :is="activeComponent" v-else />
   </div>
 </template>
 
 <script setup>
-// No script needed for this simple page
-</script>
+import { ref, computed, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import Menu from '@/components/Menu.vue';
 
-<style scoped>
-h1 {
-  text-align: center;
-  margin-top: 50px;
-}
-p {
-  text-align: center;
-}
-</style>
+const route = useRoute();
+const currentView = ref(route.query.view);
+
+const componentMap = {
+  menu: Menu,
+};
+
+const activeComponent = computed(() => componentMap[currentView.value]);
+
+watch(() => route.query.view, (newView) => {
+  currentView.value = newView;
+});
+</script>

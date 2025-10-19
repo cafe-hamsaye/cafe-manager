@@ -52,7 +52,10 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import { AUTH_API } from '@/config/api';
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
 import { useToast } from 'vue-toastification';
 
 const firstName = ref('');
@@ -63,6 +66,7 @@ const password2 = ref('');
 const passwordFieldType = ref('password');
 
 const toast = useToast();
+const router = useRouter();
 
 const togglePasswordVisibility = () => {
   passwordFieldType.value = passwordFieldType.value === 'password' ? 'text' : 'password';
@@ -70,33 +74,31 @@ const togglePasswordVisibility = () => {
 
 const handleSubmit = async () => {
   try {
-    const response = await fetch(AUTH_API.REGISTER, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        first_name: firstName.value,
-        last_name: lastName.value,
-        phone_number: phoneNumber.value,
-        password: password.value,
-        password2: password2.value,
-      }),
+    const response = await axios.post(AUTH_API.REGISTER, {
+      first_name: firstName.value,
+      last_name: lastName.value,
+      phone_number: phoneNumber.value,
+      password: password.value,
+      password2: password2.value,
     });
 
-    const data = await response.json();
+    const { access, refresh, user, message } = response.data;
 
-    if (!response.ok) {
-      const errorKey = Object.keys(data)[0];
-      const errorMessage = Array.isArray(data[errorKey]) ? data[errorKey][0] : data.detail || 'Something went wrong';
-      throw new Error(errorMessage);
-    }
+    // Save tokens and user data to localStorage
+    localStorage.setItem(AUTH_TOKEN_KEYS.USER, JSON.stringify({ access, refresh }));
+    localStorage.setItem(AUTH_TOKEN_KEYS.USER_DATA, JSON.stringify(user));
 
-    toast.success(data.message);
+    toast.success(message);
+    router.push('/dashboard'); // Redirect to dashboard
 
   } catch (error) {
     console.error('Signup error:', error);
-    toast.error(error.message);
+    const errorData = error.response?.data || {};
+    const errorKey = Object.keys(errorData)[0];
+    const errorMessage = Array.isArray(errorData[errorKey]) 
+      ? errorData[errorKey][0] 
+      : errorData.detail || 'Something went wrong';
+    toast.error(errorMessage);
   }
 };
 </script>

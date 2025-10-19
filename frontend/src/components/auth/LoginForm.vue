@@ -39,8 +39,8 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { AUTH_API } from '@/config/api';
 import { useToast } from 'vue-toastification';
-
 import { AUTH_TOKEN_KEYS } from '@/config/constants';
+import axios from 'axios';
 
 const phoneNumber = ref('');
 const password = ref('');
@@ -55,33 +55,28 @@ const togglePasswordVisibility = () => {
 
 const handleSubmit = async () => {
   try {
-    const response = await fetch(AUTH_API.LOGIN, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        phone_number: phoneNumber.value,
-        password: password.value,
-      }),
+    const response = await axios.post(AUTH_API.LOGIN, {
+      phone_number: phoneNumber.value,
+      password: password.value,
     });
 
-    const data = await response.json();
+    const { access, refresh } = response.data;
+    localStorage.setItem(AUTH_TOKEN_KEYS.USER, JSON.stringify({ access, refresh }));
 
-    if (!response.ok) {
-      const errorMessage = data.detail || data[Object.keys(data)[0]][0] || 'Something went wrong';
-      throw new Error(errorMessage);
-    }
+    const userResponse = await axios.get(AUTH_API.USER, {
+      headers: {
+        Authorization: `Bearer ${access}`,
+      },
+    });
 
-    // Save the token to localStorage
-    localStorage.setItem(AUTH_TOKEN_KEYS.USER, JSON.stringify({ access: data.access, refresh: data.refresh }));
+    localStorage.setItem(AUTH_TOKEN_KEYS.USER_DATA, JSON.stringify(userResponse.data));
 
-    toast.success(data.message);
+    toast.success('Login successful!');
     router.push('/dashboard');
-
   } catch (error) {
     console.error('Login error:', error);
-    toast.error(error.message);
+    const errorMessage = error.response?.data?.detail || 'An error occurred during login.';
+    toast.error(errorMessage);
   }
 };
 </script>

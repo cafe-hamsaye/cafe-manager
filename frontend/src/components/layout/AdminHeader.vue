@@ -8,11 +8,14 @@
             پنل مدیریت
           </router-link>
           <div class="border-l border-border-subtle h-6"></div>
-          <router-link to="/admin-panel/users" class="text-sm font-medium text-body hover:text-heading transition-colors">
+          <router-link to="/admin-panel?view=users" class="text-sm font-medium text-body hover:text-heading transition-colors">
             مدیریت کاربران
           </router-link>
-          <router-link to="/admin-panel/menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
+          <router-link to="/admin-panel?view=menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
             مدیریت منو
+          </router-link>
+          <router-link to="/admin-panel/attendance" class="text-sm font-medium text-body hover:text-heading transition-colors">
+            کد QR حضور و غیاب
           </router-link>
           <!-- Add other admin menu items here -->
         </div>

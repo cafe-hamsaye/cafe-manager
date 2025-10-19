@@ -28,12 +28,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { AUTH_TOKEN_KEYS } from '@/config/constants';
 import LoginForm from '@/components/auth/LoginForm.vue';
 import SignupForm from '@/components/auth/SignupForm.vue';
 import BackButton from '@/components/layout/BackButton.vue';
 
 const activeTab = ref('login');
+const router = useRouter();
+
+onMounted(() => {
+  const token = localStorage.getItem(AUTH_TOKEN_KEYS.USER);
+  if (token) {
+    router.push('/dashboard');
+  }
+});
 
 const switchTab = (tab) => {
   activeTab.value = tab;

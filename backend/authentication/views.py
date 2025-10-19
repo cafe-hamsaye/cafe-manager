@@ -2,9 +2,11 @@
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import UserSerializer, MyTokenObtainPairSerializer, AdminTokenObtainPairSerializer
 from .models import User, Admin
 from .permissions import IsAdmin
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -45,6 +47,8 @@ class AdminTokenObtainPairView(TokenObtainPairView):
             response.data['message'] = 'ورود ادمین با موفقیت انجام شد'
         return response
 
+from rest_framework_simplejwt.tokens import RefreshToken
+
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -52,10 +56,17 @@ class RegisterView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        user = serializer.save()
+
+        # Generate tokens
+        refresh = RefreshToken.for_user(user)
+        access_token = str(refresh.access_token)
+
         response_data = {
             'message': 'ثبت نام با موفقیت انجام شد',
-            'data': serializer.data
+            'access': access_token,
+            'refresh': str(refresh),
+            'user': serializer.data
         }
         headers = self.get_success_headers(serializer.data)
         return Response(response_data, status=status.HTTP_201_CREATED, headers=headers)

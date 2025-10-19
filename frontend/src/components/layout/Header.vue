@@ -1,3 +1,7 @@
+<script setup>
+import { uiState } from '@/store/ui';
+</script>
+
 <template>
   <header class="bg-surface/80 backdrop-blur-lg sticky top-0 z-50 border-b border-border-subtle">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -8,9 +12,9 @@
             کافه همسایه
           </router-link>
           <div class="border-l border-border-subtle h-6"></div>
-          <router-link to="/menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
+          <button @click="uiState.showMenuOnLanding = true" class="text-sm font-medium text-body hover:text-heading transition-colors">
             منو
-          </router-link>
+          </button>
         </div>
 
         <!-- Left Section: Auth Button -->
@@ -23,7 +27,3 @@
     </div>
   </header>
 </template>
-
-<script setup>
-// No script needed, all styling is done via Tailwind classes.
-</script>
