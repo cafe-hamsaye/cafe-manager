@@ -23,14 +23,12 @@ class QRCodeGeneratorView(APIView):
         token = generate_qr_token()
         return Response({'token': token})
 
+from staff.permissions import IsStaffMember
+
 class AttendanceRecordView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsStaffMember]
 
     def post(self, request, format=None):
-        # Ensure the authenticated user is a staff member
-        if not hasattr(request.user, 'is_staff_member') or not request.user.is_staff_member:
-            return Response({'detail': 'Authentication credentials were not provided for a staff member.'}, status=status.HTTP_403_FORBIDDEN)
-
         serializer = AttendanceRecordSerializer(data=request.data)
         if serializer.is_valid():
             token = serializer.validated_data['token']
