@@ -62,10 +62,10 @@ backend/
 -   **`menu/`**: This app manages the cafe's menu items. It provides API endpoints for listing, creating, updating, and deleting menu items.
 
 -   **`staff/`**: This app is responsible for managing staff members who have separate credentials from regular users. It handles the CRUD operations for staff.
-    -   **`models.py`**: Defines the `MenuItem` model with fields for name, description, price, and image URL.
-    -   **`serializers.py`**: Contains the `MenuItemSerializer` for the `MenuItem` model.
-    -   **`views.py`**: Implements the `MenuItemViewSet`, which handles all CRUD operations. It uses the `IsAdmin` permission to restrict create, update, and delete actions to admin users.
-    -   **`urls.py`**: Defines the URL patterns for the menu API, which are included in the project's root URL configuration.
+    -   **`models.py`**: Defines the `Staff` model.
+    -   **`serializers.py`**: Contains the `StaffSerializer`.
+    -   **`views.py`**: Implements the `StaffViewSet`.
+    -   **`urls.py`**: Defines the URL patterns for the staff API.
 
 -   **`cafe_manager_backend/`**: This directory is the main container for the Django project's configuration.
     -   **`settings.py`**: The most important file here. It contains all the project's configuration, such as database settings, installed apps, middleware, and authentication settings.

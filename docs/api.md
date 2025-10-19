@@ -365,8 +365,7 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789",
-  "is_cafe_staff": true
+  "phone_number": "09123456789"
 }
 ```
 
