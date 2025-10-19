@@ -8,6 +8,7 @@ backend/
 ├── .env.example            # Example environment variables
 ├── authentication/         # Django app for handling user authentication
 ├── menu/                   # Django app for managing menu items
+├── staff/                  # Django app for managing staff members
 │   ├── migrations/         # Database migrations for the menu app
 │   ├── __init__.py
 │   ├── admin.py
@@ -59,6 +60,8 @@ backend/
     -   **`permissions.py`**: Contains custom permission classes, such as `IsAdmin`, to protect endpoints and ensure that only authorized users (like administrators) can access them.
 
 -   **`menu/`**: This app manages the cafe's menu items. It provides API endpoints for listing, creating, updating, and deleting menu items.
+
+-   **`staff/`**: This app is responsible for managing staff members who have separate credentials from regular users. It handles the CRUD operations for staff.
     -   **`models.py`**: Defines the `MenuItem` model with fields for name, description, price, and image URL.
     -   **`serializers.py`**: Contains the `MenuItemSerializer` for the `MenuItem` model.
     -   **`views.py`**: Implements the `MenuItemViewSet`, which handles all CRUD operations. It uses the `IsAdmin` permission to restrict create, update, and delete actions to admin users.

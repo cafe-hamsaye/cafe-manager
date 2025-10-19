@@ -14,6 +14,9 @@
           <router-link to="/admin-panel?view=menu" class="text-sm font-medium text-body hover:text-heading transition-colors">
             مدیریت منو
           </router-link>
+          <router-link to="/admin-panel?view=staff" class="text-sm font-medium text-body hover:text-heading transition-colors">
+            مدیریت کارکنان
+          </router-link>
           <router-link to="/admin-panel/attendance" class="text-sm font-medium text-body hover:text-heading transition-colors">
             کد QR حضور و غیاب
           </router-link>

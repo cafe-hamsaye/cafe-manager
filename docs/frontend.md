@@ -10,7 +10,9 @@ frontend/
 │   │   ├── admin/          # Components for the admin panel
 │   │   │   ├── UsersTable.vue
 │   │   │   ├── MenuItemModal.vue
-│   │   │   └── MenuTable.vue
+│   │   │   ├── MenuTable.vue
+│   │   │   ├── StaffTable.vue
+│   │   │   └── StaffModal.vue
 │   │   ├── auth/           # Components related to authentication
 │   │   ├── layout/         # Layout components (Header, Footer, Background, DashboardHeader, AdminHeader, UserProfileMenu, BackButton, BaseModal, ConfirmationModal)
 │   │   └── Menu.vue
@@ -49,7 +51,7 @@ frontend/
     -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage` and `AdminDashboardPage` for administrators. The admin dashboard now dynamically renders management components like `UsersTable` and `MenuTable`.
     -   **`router/`**: This directory contains the Vue Router configuration. `index.js` defines all the application routes and maps them to the corresponding page components. It now includes routes for menu management and the public menu page.
     -   **`utils/`**: This directory contains utility functions. `authFetch.js` is a utility for making authenticated API requests, handling token refresh, and logout.
-    -   **`components/admin/`**: This folder contains components that are specific to the admin panel, such as the `UsersTable.vue` for managing users, `MenuTable.vue` for managing menu items, and `MenuItemModal.vue` for adding and editing menu items.
+    -   **`components/admin/`**: This folder contains components that are specific to the admin panel, such as the `UsersTable.vue` for managing users, `MenuTable.vue` for managing menu items, `MenuItemModal.vue` for adding and editing menu items, `StaffTable.vue` for managing staff, and `StaffModal.vue` for the staff form.
     -   **`components/Menu.vue`**: A component that displays the menu to regular users.
     -   **`App.vue`**: The root component of the application. It has been updated with logic to conditionally render the correct header (generic, dashboard, or admin) based on the current route, and to hide the header/footer on the authentication page.
     -   **`main.js`**: The entry point for the application. It initializes Vue, sets up the router, and mounts the root `App.vue` component to the `index.html` file. It now also configures the `vue-final-modal` plugin.

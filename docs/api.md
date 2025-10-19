@@ -592,3 +592,35 @@ This file contains the documentation for all available backend endpoints.
 **Error Responses:**
 - **Code:** `401 Unauthorized`
 - **Code:** `403 Forbidden`
+
+---
+
+## Staff Management (Admin Only)
+
+Provides full CRUD functionality for managing staff members.
+
+- **`GET /api/staff/`**: List all staff members.
+- **`POST /api/staff/`**: Create a new staff member.
+- **`GET /api/staff/{id}/`**: Retrieve a specific staff member.
+- **`PUT /api/staff/{id}/`**: Update a specific staff member.
+- **`PATCH /api/staff/{id}/`**: Partially update a specific staff member.
+- **`DELETE /api/staff/{id}/`**: Delete a specific staff member.
+
+### Request Body (for `POST`, `PUT`, `PATCH`)
+```json
+{
+  "number": "string",
+  "password": "string" // Optional on update
+}
+```
+
+### Success Response (for `GET`, `POST`, `PUT`, `PATCH`)
+- **Code:** `200 OK` or `201 Created`
+- **Content:**
+```json
+{
+  "id": 1,
+  "number": "string",
+  "last_login": "datetime"
+}
+```

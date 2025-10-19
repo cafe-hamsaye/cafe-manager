@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'menu',
     'corsheaders',
     'attendance',
+    'staff',
 ]
 
 MIDDLEWARE = [

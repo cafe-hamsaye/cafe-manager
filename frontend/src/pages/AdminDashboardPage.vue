@@ -13,6 +13,7 @@ import { ref, computed, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import UsersTable from '@/components/admin/UsersTable.vue';
 import MenuTable from '@/components/admin/MenuTable.vue';
+import StaffTable from '@/components/admin/StaffTable.vue';
 
 const route = useRoute();
 const currentView = ref(route.query.view || null); // Default to null
@@ -20,6 +21,7 @@ const currentView = ref(route.query.view || null); // Default to null
 const componentMap = {
   users: UsersTable,
   menu: MenuTable,
+  staff: StaffTable,
 };
 
 const activeComponent = computed(() => componentMap[currentView.value]);

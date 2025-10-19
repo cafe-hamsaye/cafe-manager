@@ -11,6 +11,7 @@ Cafe Manager is a comprehensive, full-stack web application designed to streamli
 - **Admin Panel:** A powerful interface for administrators to:
   - Manage all registered users (view, update, delete).
   - Manage all menu items (create, view, update, delete).
+  - Manage staff members with separate credentials (create, view, update, delete).
 - **RESTful API:** A well-documented API for seamless communication between the frontend and backend.
 
 ## Technologies Used
