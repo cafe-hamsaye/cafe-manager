@@ -35,3 +35,8 @@ export const ATTENDANCE_API = {
   RECORD: `${API_BASE_URL}/attendance/record/`,
 };
 
+export const ATTENDANCE_API = {
+  QR_CODE: `${API_BASE_URL}/attendance/qr-code/`,
+  RECORD: `${API_BASE_URL}/attendance/record/`,
+};
+
