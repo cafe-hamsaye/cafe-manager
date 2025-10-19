@@ -12,7 +12,6 @@
             <th class="px-6 py-3 font-medium text-heading">نام</th>
             <th class="px-6 py-3 font-medium text-heading">نام خانوادگی</th>
             <th class="px-6 py-3 font-medium text-heading">شماره تلفن</th>
-            <th class="px-6 py-3 font-medium text-heading">کارمند کافه</th>
             <th class="px-6 py-3 font-medium text-heading">عملیات</th>
           </tr>
         </thead>
@@ -24,15 +23,7 @@
             <td class="px-6 py-4 text-body">{{ user.first_name }}</td>
             <td class="px-6 py-4 text-body">{{ user.last_name }}</td>
             <td class="px-6 py-4 text-body" style="direction: ltr; text-align: right;">{{ user.phone_number }}</td>
-            <td class="px-6 py-4 text-body">
-              <span :class="user.is_cafe_staff ? 'text-green-500' : 'text-red-500'">
-                {{ user.is_cafe_staff ? 'بله' : 'خیر' }}
-              </span>
-            </td>
             <td class="px-6 py-4 space-x-4 space-x-reverse">
-              <button @click="toggleStaffStatus(user)" class="text-blue-500 hover:text-blue-700 transition-colors font-medium">
-                تغییر وضعیت
-              </button>
               <button @click="openConfirmDeleteModal(user)" class="text-red-500 hover:text-red-700 transition-colors font-medium">
                 حذف
               </button>
@@ -87,23 +78,7 @@ const fetchUsers = async () => {
   }
 };
 
-const toggleStaffStatus = async (user) => {
-  try {
-    const response = await authFetch(USERS_API.UPDATE(user.id), {
-      method: 'PATCH',
-      body: JSON.stringify({ is_cafe_staff: !user.is_cafe_staff }),
-    });
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.detail || 'تغییر وضعیت کاربر با خطا مواجه شد.');
-    }
-    toast.success(data.message);
-    fetchUsers(); // Refresh the list
-  } catch (err) {
-    console.error('toggleStaffStatus error:', err);
-    toast.error(err.message);
-  }
-};
+
 
 const openConfirmDeleteModal = (user) => {
   userToDelete.value = user;

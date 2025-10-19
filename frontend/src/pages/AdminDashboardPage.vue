@@ -1,6 +1,10 @@
 <template>
   <div class="container mx-auto py-10 px-4 sm:px-6 lg:px-8">
-    <component :is="activeComponent" />
+    <div v-if="!activeComponent">
+      <h1 class="text-2xl font-bold text-heading mb-4">به پنل مدیریت خوش آمدید</h1>
+      <p class="text-body">لطفا برای شروع، یک گزینه از منوی بالا انتخاب کنید.</p>
+    </div>
+    <component :is="activeComponent" v-else />
   </div>
 </template>
 
@@ -11,16 +15,16 @@ import UsersTable from '@/components/admin/UsersTable.vue';
 import MenuTable from '@/components/admin/MenuTable.vue';
 
 const route = useRoute();
-const currentView = ref(route.query.view || 'users'); // Default to 'users'
+const currentView = ref(route.query.view || null); // Default to null
 
 const componentMap = {
   users: UsersTable,
   menu: MenuTable,
 };
 
-const activeComponent = computed(() => componentMap[currentView.value] || UsersTable);
+const activeComponent = computed(() => componentMap[currentView.value]);
 
 watch(() => route.query.view, (newView) => {
-  currentView.value = newView || 'users';
+  currentView.value = newView || null;
 });
 </script>

@@ -24,9 +24,8 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: DashboardPage,
-    meta: { requiresAuth: true } // Protected route for users
+    meta: { requiresAuth: true } // For all authenticated users
   },
-
   {
     path: '/admin',
     name: 'AdminLogin',
@@ -36,16 +35,14 @@ const routes = [
     path: '/admin-panel',
     name: 'AdminDashboard',
     component: AdminDashboardPage,
-    meta: { requiresAdmin: true } // Protected route for admins
+    meta: { requiresAdmin: true }
   },
-
   {
     path: '/admin-panel/attendance',
     name: 'AttendanceQRCode',
     component: () => import('@/pages/AttendanceQRCodePage.vue'),
     meta: { requiresAdmin: true }
   },
-
   // Catch-all route must be last
   {
     path: '/:pathMatch(.*)*',
@@ -61,27 +58,21 @@ const router = createRouter({
 
 // Navigation Guard
 router.beforeEach((to, from, next) => {
-  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-  const requiresStaff = to.matched.some(record => record.meta.requiresStaff);
+  const requiresAdmin = to.matched.some(record => record.meta.requiresAdmin);
 
-  const adminToken = localStorage.getItem(AUTH_TOKEN_KEYS.ADMIN);
   const userToken = localStorage.getItem(AUTH_TOKEN_KEYS.USER);
-  const userData = JSON.parse(localStorage.getItem(AUTH_TOKEN_KEYS.USER_DATA));
+  const adminToken = localStorage.getItem(AUTH_TOKEN_KEYS.ADMIN);
 
   if (requiresAdmin && !adminToken) {
-    // Redirect to admin login if not authenticated as admin
-    next({ name: 'AdminLogin' });
-  } else if (requiresAuth && !userToken) {
-    // Redirect to user login if not authenticated as user
-    next({ name: 'Auth' });
-  } else if (requiresStaff && (!userData || !userData.is_cafe_staff)) {
-    // Redirect to dashboard if user is not a staff member
-    next({ name: 'Dashboard' });
-  } else {
-    // Otherwise, allow navigation
-    next();
+    return next({ name: 'AdminLogin' });
   }
+
+  if (requiresAuth && !userToken) {
+    return next({ name: 'Auth' });
+  }
+
+  next();
 });
 
 export default router;
