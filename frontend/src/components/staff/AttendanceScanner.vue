@@ -95,9 +95,7 @@ const onError = (err) => {
   console.error(err);
 };
 
-const onLoaded = () => {
-  console.log('Camera and scanner loaded successfully.');
-};
+const onCameraError = (err) => {
 
 const recordAttendance = async (status) => {
   if (!decodedToken.value) return;
