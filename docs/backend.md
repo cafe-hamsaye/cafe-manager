@@ -52,7 +52,7 @@ backend/
 
 -   **`authentication/`**: This is a Django app dedicated to user authentication. It contains all the logic for user registration, login, and management for both regular users and admins.
     -   **`management/commands/create_admin.py`**: A custom management command to create the initial admin user from credentials stored in the `.env` file.
-    -   **`models.py`**: Defines the database models. It includes the custom `User` model (using phone number as a username), the new `Admin` model for system administrators, and the `is_cafe_staff` field on the `User` model to identify cafe staff.
+    -   **`models.py`**: Defines the database models. It includes the custom `User` model (using phone number as a username) and the new `Admin` model for system administrators.
     -   **`serializers.py`**: Contains DRF serializers to convert model instances to/from JSON. The `UserSerializer` now also handles backend validation for password confirmation.
     -   **`views.py`**: Holds the API views. The `AdminLoginView` has been refactored to use a standard method for JWT generation. The views also now return standardized Persian success messages.
     -   **`urls.py`**: Defines the specific URL patterns for the authentication app, including the new `/api/auth/admin/login/` endpoint.

@@ -207,8 +207,7 @@ This file contains the documentation for all available backend endpoints.
     "id": 1,
     "first_name": "string",
     "last_name": "string",
-    "phone_number": "09123456789",
-    "is_cafe_staff": false
+    "phone_number": "09123456789"
   },
   ...
 ]
@@ -289,10 +288,8 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789",
-  "is_cafe_staff": false
-}
-```
+      "phone_number": "09123456789"
+  }```
 
 **Error Responses:**
 - **Code:** `401 Unauthorized`
@@ -318,8 +315,7 @@ This file contains the documentation for all available backend endpoints.
   "first_name": "string",
   "last_name": "string",
   "phone_number": "09123456789",
-  "password": "newpassword",
-  "is_cafe_staff": true
+  "password": "newpassword"
 }
 ```
 
@@ -331,8 +327,7 @@ This file contains the documentation for all available backend endpoints.
   "id": 1,
   "first_name": "string",
   "last_name": "string",
-  "phone_number": "09123456789",
-  "is_cafe_staff": true
+  "phone_number": "09123456789"
 }
 ```
 
@@ -358,8 +353,7 @@ This file contains the documentation for all available backend endpoints.
 **Request Body:**
 ```json
 {
-  "first_name": "string",
-  "is_cafe_staff": true
+  "first_name": "string"
 }
 ```
 
@@ -570,3 +564,31 @@ This file contains the documentation for all available backend endpoints.
 - **Code:** `401 Unauthorized`
 - **Code:** `403 Forbidden`
 - **Code:** `404 Not Found`
+
+---
+
+## Attendance (Admin Only)
+
+### `GET /api/attendance/qr-code/`
+
+**Description:** Generates a time-based QR code token for attendance purposes. Requires admin authentication.
+
+**Headers:**
+```json
+{
+  "Authorization": "Bearer your_admin_access_token"
+}
+```
+
+**Success Response:**
+- **Code:** `200 OK`
+- **Content:**
+```json
+{
+  "token": "a_long_generated_token_string"
+}
+```
+
+**Error Responses:**
+- **Code:** `401 Unauthorized`
+- **Code:** `403 Forbidden`

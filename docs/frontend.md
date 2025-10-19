@@ -24,8 +24,7 @@ frontend/
 │   │   ├── LandingPage.vue
 │   │   ├── DashboardPage.vue
 │   │   ├── AdminLoginPage.vue
-│   │   ├── AdminDashboardPage.vue
-│   │   └── ManageUsersPage.vue
+│   │   └── AdminDashboardPage.vue
 │   ├── router/             # Vue Router configuration
 │   │   └── index.js
 │   ├── utils/              # Utility functions
@@ -47,7 +46,7 @@ frontend/
     -   **`components/layout/`**: This folder now contains specialized headers (`DashboardHeader`, `AdminHeader` with corrected item alignment), a reusable `UserProfileMenu`, and a `BackButton` used on auth pages. It also includes reusable modal components: `BaseModal.vue` for the basic modal structure and `ConfirmationModal.vue` for showing confirmation dialogs.
     -   **`config/`**: Contains configuration files. `api.js` is used to configure the base URL for the backend API, making it easy to change. It now includes endpoints for the menu API. `constants.js` stores constant values used throughout the application, such as local storage keys.
     -   **`css/`**: For global CSS styles. `main.css` contains styles that apply to the entire application.
-    -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage`, `AdminDashboardPage`, `ManageUsersPage`, and `ManageMenuPage` for administrators, as well as a public `MenuPage`.
+    -   **`pages/`**: These are the main components mapped to routes. This now includes `DashboardPage` for users, and `AdminLoginPage` and `AdminDashboardPage` for administrators. The admin dashboard now dynamically renders management components like `UsersTable` and `MenuTable`.
     -   **`router/`**: This directory contains the Vue Router configuration. `index.js` defines all the application routes and maps them to the corresponding page components. It now includes routes for menu management and the public menu page.
     -   **`utils/`**: This directory contains utility functions. `authFetch.js` is a utility for making authenticated API requests, handling token refresh, and logout.
     -   **`components/admin/`**: This folder contains components that are specific to the admin panel, such as the `UsersTable.vue` for managing users, `MenuTable.vue` for managing menu items, and `MenuItemModal.vue` for adding and editing menu items.

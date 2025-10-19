@@ -1,6 +1,6 @@
 # Cafe Manager
 
-Cafe Manager is a comprehensive, full-stack web application designed to streamline cafe operations. It features a user-friendly interface for customers and a powerful admin panel for staff to manage the menu and users. The frontend is built with Vue.js, and the backend is powered by Django.
+Cafe Manager is a comprehensive, full-stack web application designed to streamline cafe operations. It features a user-friendly interface for customers and a powerful admin panel for administrators to manage the menu and users. The frontend is built with Vue.js, and the backend is powered by Django.
 
 ## Features
 
