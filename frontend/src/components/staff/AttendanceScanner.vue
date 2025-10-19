@@ -8,8 +8,9 @@
     </div>
 
     <div v-if="cameraReady" class="border-4 border-gray-300 rounded-lg overflow-hidden w-64 h-64 mx-auto">
-      <qrcode-stream @decode="onDecode" @error="onCameraError"></qrcode-stream>
+      <qrcode-stream @decode="onDecode" @init="onInit" @error="onCameraError"></qrcode-stream>
     </div>
+    <p v-if="log" class="text-sm text-gray-500 mt-2">{{ log }}</p>
     <p v-if="error" class="text-red-500 mt-4">{{ error }}</p>
 
     <confirmation-modal 
@@ -33,6 +34,7 @@ import ConfirmationModal from '@/components/layout/ConfirmationModal.vue';
 import { AUTH_TOKEN_KEYS } from '@/config/constants';
 
 const error = ref('');
+const log = ref('');
 const cameraReady = ref(false);
 const showConfirmModal = ref(false);
 const decodedToken = ref(null);
@@ -40,30 +42,56 @@ const toast = useToast();
 
 const initCamera = async () => {
   error.value = '';
+  log.value = 'در حال درخواست دسترسی به دوربین...';
   try {
-    // Explicitly request camera permissions
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    // Stop the tracks immediately, we only needed to trigger the permission prompt
     stream.getTracks().forEach(track => track.stop());
     cameraReady.value = true;
+    log.value = 'دوربین با موفقیت فعال شد. منتظر اسکن...';
   } catch (err) {
     if (err.name === 'NotAllowedError') {
       error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید. لطفا از تنظیمات مرورگر آن را فعال کنید.';
     } else {
       error.value = `خطا در فعال‌سازی دوربین: ${err.name}`;
     }
+    log.value = '';
+  }
+};
+
+const onInit = async (promise) => {
+  log.value = 'در حال آماده‌سازی اسکنر...';
+  try {
+    await promise;
+    log.value = 'اسکنر آماده است. دوربین را به سمت کد QR بگیرید.';
+  } catch (err) {
+    if (err.name === 'NotAllowedError') {
+      error.value = 'شما دسترسی به دوربین را مسدود کرده‌اید.';
+    } else if (err.name === 'NotFoundError') {
+      error.value = 'هیچ دوربینی در این دستگاه یافت نشد.';
+    } else if (err.name === 'NotSupportedError') {
+      error.value = 'دسترسی به دوربین در این مرورگر (در محیط ناامن) پشتیبانی نمی‌شود.';
+    } else if (err.name === 'NotReadableError') {
+      error.value = 'دوربین توسط یک برنامه دیگر در حال استفاده است.';
+    } else if (err.name === 'OverconstrainedError') {
+      error.value = 'دوربین نصب شده با کیفیت مورد نیاز سازگار نیست.';
+    } else {
+      error.value = `خطای ناشناخته دوربین: ${err.name}`;
+    }
+    log.value = '';
   }
 };
 
 const onDecode = (result) => {
+  log.value = 'کد با موفقیت اسکن شد!';
   error.value = '';
   decodedToken.value = result;
   showConfirmModal.value = true;
 };
 
 const onCameraError = (err) => {
-  error.value = `خطا در دوربین: ${err.name}`;
-  cameraReady.value = false; // Reset camera state on error
+  error.value = `خطای دوربین: ${err.name}`;
+  cameraReady.value = false;
+  log.value = '';
 };
 
 const recordAttendance = async (status) => {
@@ -81,7 +109,7 @@ const recordAttendance = async (status) => {
   } finally {
     decodedToken.value = null;
     showConfirmModal.value = false;
-    cameraReady.value = false; // Reset to show the button again
+    cameraReady.value = false;
   }
 };
 </script>
