@@ -20,3 +20,11 @@ export const MENU_API = {
   UPDATE: (itemId) => `${API_BASE_URL}/menu/${itemId}/`,
   DELETE: (itemId) => `${API_BASE_URL}/menu/${itemId}/`,
 };
+
+export const STAFF_API = {
+  LIST: `${API_BASE_URL}/staff/`,
+  CREATE: `${API_BASE_URL}/staff/`,
+  UPDATE: (staffId) => `${API_BASE_URL}/staff/${staffId}/`,
+  DELETE: (staffId) => `${API_BASE_URL}/staff/${staffId}/`,
+};
+

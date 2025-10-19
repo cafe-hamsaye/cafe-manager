@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 
-
+# Manager for the custom User model
 class UserManager(BaseUserManager):
     def create_user(self, phone_number, password=None, **extra_fields):
         if not phone_number:
@@ -14,47 +14,28 @@ class UserManager(BaseUserManager):
     def create_superuser(self, phone_number, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
         return self.create_user(phone_number, password, **extra_fields)
 
+# Custom User model for customers
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15, unique=True)
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
-        related_name="cafe_user_set",  # Unique related_name
-        related_query_name="user",
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='user permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_name="cafe_user_set",  # Unique related_name
-        related_query_name="user",
-    )
+    is_staff = models.BooleanField(default=False) # Not admin staff
 
     objects = UserManager()
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['first_name', 'last_name']
 
+    groups = models.ManyToManyField(Group, related_name='cafe_user_groups', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='cafe_user_permissions', blank=True)
+
     def __str__(self):
         return self.phone_number
 
-
+# Manager for the Admin model
 class AdminManager(BaseUserManager):
     def create_user(self, username, password=None, **extra_fields):
         if not username:
@@ -67,41 +48,21 @@ class AdminManager(BaseUserManager):
     def create_superuser(self, username, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-
         return self.create_user(username, password, **extra_fields)
 
+# Admin user model for site administration
 class Admin(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=150, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=True)
 
-    groups = models.ManyToManyField(
-        Group,
-        verbose_name='groups',
-        blank=True,
-        help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
-        related_name="cafe_admin_set",  # Unique related_name
-        related_query_name="admin",
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        verbose_name='user permissions',
-        blank=True,
-        help_text='Specific permissions for this user.',
-        related_name="cafe_admin_set",  # Unique related_name
-        related_query_name="admin",
-    )
-
     objects = AdminManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = []
+
+    groups = models.ManyToManyField(Group, related_name='cafe_admin_groups', blank=True)
+    user_permissions = models.ManyToManyField(Permission, related_name='cafe_admin_permissions', blank=True)
 
     def __str__(self):
         return self.username

@@ -12,7 +12,7 @@
 
 <script>
 import QrcodeVue from 'qrcode.vue';
-import authFetch from '@/utils/authFetch';
+import axios from 'axios';
 import { API_BASE_URL } from '@/config/api';
 
 export default {
@@ -29,9 +29,11 @@ export default {
   methods: {
     async fetchQRCode() {
       try {
-        const response = await authFetch(`${API_BASE_URL}/attendance/qr-code/`);
-        const data = await response.json();
-        this.token = data.token;
+        const tokenData = JSON.parse(localStorage.getItem('admin_token'));
+        const response = await axios.get(`${API_BASE_URL}/attendance/qr-code/`, {
+          headers: { Authorization: `Bearer ${tokenData.access}` },
+        });
+        this.token = response.data.token;
       } catch (error) {
         console.error('Error fetching QR code:', error);
       }
