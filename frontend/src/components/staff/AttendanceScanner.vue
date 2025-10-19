@@ -47,7 +47,6 @@ import axios from 'axios';
 import { useToast } from 'vue-toastification';
 import AttendanceActionModal from './AttendanceActionModal.vue';
 import { ATTENDANCE_API } from '@/config/api';
-
 import { AUTH_TOKEN_KEYS } from '@/config/constants';
 
 const error = ref('');
@@ -65,8 +64,8 @@ const initCamera = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ video: true });
     stream.getTracks().forEach(track => track.stop());
     cameraReady.value = true;
-    await nextTick(); // Wait for the DOM to update
-    scannerReady.value = true; // Now render the scanner
+    await nextTick();
+    scannerReady.value = true;
     log.value = 'دوربین با موفقیت فعال شد. منتظر اسکن...';
   } catch (err) {
     if (err.name === 'NotAllowedError') {
@@ -83,19 +82,20 @@ const onLoaded = () => {
 };
 
 const onDecode = (result) => {
-  console.log('Decoded:', result);
   if (result) {
+    log.value = 'کد با موفقیت اسکن شد!';
+    error.value = '';
     decodedToken.value = result;
     showConfirmModal.value = true;
   }
 };
 
-const onError = (err) => {
-  error.value = `خطا در دوربین: ${err.message}. لطفاً دسترسی به دوربین را در مرورگر خود بررسی کنید.`;
-  console.error(err);
-};
-
 const onCameraError = (err) => {
+  error.value = `خطای دوربین: ${err.name}`;
+  cameraReady.value = false;
+  scannerReady.value = false;
+  log.value = '';
+};
 
 const recordAttendance = async (status) => {
   if (!decodedToken.value) return;
@@ -112,6 +112,9 @@ const recordAttendance = async (status) => {
   } finally {
     decodedToken.value = null;
     showConfirmModal.value = false;
+    cameraReady.value = false;
+    scannerReady.value = false;
+    log.value = ''; // Reset log
   }
 };
 </script>
